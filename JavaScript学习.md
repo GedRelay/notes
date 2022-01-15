@@ -641,7 +641,7 @@ console.log(reg.test(str));
 
 ## DOM树
 
-![image-20211121203729252](C:\Users\29406\AppData\Roaming\Typora\typora-user-images\image-20211121203729252.png) 
+![image-20211121203729252](https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20211121203729252.png) 
 
 * 文档：一个页面就是一个文档，DOM中使用document表示
 * 元素：页面中的所有标签都是元素，DOM中使用element表示
@@ -861,7 +861,7 @@ btn.addEventListener('click',function(){
 事件流描述的是从页面中接收事件的顺序。
 事件发生时会在元素节点之间按照特定的顺序传播，这个传播过程即DOM事件流。
 
-![image-20211123111656934](C:\Users\29406\AppData\Roaming\Typora\typora-user-images\image-20211123111656934.png) 
+![image-20211123111656934](https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20211123111656934.png)  
 
 注意：
 
@@ -975,7 +975,7 @@ document.addEventListener('selectstart',function(e){
 
 
 
-![image-20211123222456194](C:\Users\29406\AppData\Roaming\Typora\typora-user-images\image-20211123222456194.png) 
+![image-20211123222456194](https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20211123222456194.png) 
 
 
 
@@ -1112,7 +1112,7 @@ navigator对象包含有关浏览器的信息。
 
 # js执行机制
 
-![image-20211215102836506](D:\笔记\学习笔记\image\image-20211215102836506.png) 
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20211215102836506.png" alt="image-20211215102836506" style="zoom:67%;" /> 
 
 所有任务都分为同步任务和异步任务
 
