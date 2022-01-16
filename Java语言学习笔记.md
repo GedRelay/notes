@@ -798,7 +798,7 @@ h.show();// 重量占比：0.25%
 
 作用：方便创建子类对象，最终目的为了简化代码编写。
 
-格式：
+当然还可以用[Lambda表达式](#Lambda(箭头函数))进一步简化
 
 ```java
 new 类|接口(){
@@ -814,16 +814,17 @@ public abstract class Animal {//抽象类
 }
 //------------------------------------------------
 // 1.不使用匿名内部类
-public class Tiger extends Animal{
+public class Tiger extends Animal{//需要提前定义一个子类
     @Override
     void eat() {
         System.out.println("吃肉");
     }
 }
 
-Animal tiger = new Tiger();//需要提前定义一个子类
+Animal tiger = new Tiger();
 tiger.eat(); // 吃肉
 //-------------------------------------------------
+
 // 2.使用匿名内部类
 Animal tiger = new Animal() {//不需要定义子类
 	@Override
@@ -1286,11 +1287,94 @@ private 返回值 方法名(参数列表){
 
 
 
-# lamda(箭头函数)
+# Lambda(箭头函数)
+
+Lambda表达式是JDK8后支持的一种新语法形式。用来简化函数式接口[匿名内部类](#匿名内部类)的代码写法
+
+但是：**Lambda表达式只能简化函数式接口的匿名内部类的写法形式** 
+
+## 使用方法
+
+```java
+(匿名内部类被重写方法的形参列表) -> {
+    ...;
+}
+
+例：
+@FunctionalInterface
+interface Animal{ // 函数式接口
+	void eat();
+}
+
+Animal tiger = () ->{ // lambda函数
+	System.out.println("吃肉");
+};
+tiger.eat();
+```
 
 
 
-？？？
+
+
+## 省略写法
+
+满足规则，则Lambda表达式还可以继续简化！
+
+* 参数类型可以省略
+
+* 如果只有一个参数，同时`()`也可以省略
+* 如果Lambda表达式方法体只有一行，大括号`{}`可以省略，同时也要省略分号`;` 
+* 如果Lambda表达式只有一行且是`return`语句，可以省略`return`同时省略分号`;` 
+
+
+
+
+
+## 函数式接口
+
+该接口中有且仅有一个抽象方法
+
+可以在上方添加`@FunctionalInterface`注解
+
+
+
+
+
+## 简化常见函数式接口
+
+1. [比较器Comparator](#比较器接口) 
+
+```java
+new Comparator<Integer>() {
+	@Override
+	public int compare(Integer o1, Integer o2) {
+		...;
+	}
+}
+//---------------------------------------------
+(o1, o2) -> {
+    ...;
+}
+```
+
+2. 按钮监听器ActionListener
+
+```java
+new ActionListener(){
+    @Override
+    public void actionperformed(ActionEvent e){
+        ...;
+    }
+}
+//---------------------------------------------
+e -> {
+    ...;
+}
+```
+
+
+
+
 
 
 
@@ -1389,7 +1473,46 @@ System.out.println(s1 == s3);//true
 | str.substring(int beginIndex, int endIndex)    | String   | 截取字符串，左闭右开！                     |
 | str.replace(String target, String replacement) | String   | 文本替换，返回替换后的文本，不影响原字符串 |
 | str.contains(String s)                         | boolean  | 查看字符串中是否存在某字符串               |
-| str.split(String regex)                        | String[] | 以指定分隔符将字符串分割成数组             |
+| str.split(String regex)                        | String[] | 以指定分隔符(正则表达式)将字符串分割成数组 |
+| str.matches(String regex)                      | boolean  | 判断是否匹配正则表达式                     |
+| str.replaceAll(String regex, String newStr)    | String   | 将正则表达式匹配的内容替换为新字符串       |
+
+
+
+### 正则表达式的常用操作符
+
+| 操作符 | 说明                                | 示例                                    |
+| ------ | ----------------------------------- | --------------------------------------- |
+| .      | 表示任何单个字符                    |                                         |
+| \d     | 数字，等价于[0-9]                   |                                         |
+| \w     | 英文数字下划线，等价于[A-Za-z0-9_]  |                                         |
+| \s     | 空白字符，等价于[\\t\\n\\x0B\\f\\r] |                                         |
+| [ ]    | 字符集，对单个字符给出取值范围      | [abc]表示a,b,c, [a-z]表示a到z的单个字符 |
+| [^ ]   | 非字符集，对单个字符给出排除范围    | [^abc]表示非a或b或c的单个字符           |
+| *      | 前一个字符0次或无限次扩展           | abc*表示ab,abc,abcc,abccc等             |
+| +      | 前一个字符1次或无限次扩展           | abc+表示abc,abcc,abccc等                |
+| ?      | 前一个字符0次或1次扩展              | abc?表示ab,abc                          |
+| {m}    | 前一个字符正好m次                   | ab{2}c表示abbc                          |
+| {m,}   | 前一个字符至少m次                   |                                         |
+| {m,n}  | 前一个字符m至n次(含n)               | ab{1,2}c表示abc,abbc                    |
+| \|     | 左右表达式任意一个                  | abc\|def表示abc,def                     |
+| ( )    | 分组标记，内部只能使用\|操作符      | (abc)表示abc,(abc\|def)表示abc,def      |
+| ^      | 匹配字符串开头                      | ^abc表示abc且在一个字符串开头           |
+| $      | 匹配字符串结尾                      | abc$表示abc且在一个字符串的结尾         |
+
+举例：
+
+| 正则表达式                                                   | 说明                         |
+| ------------------------------------------------------------ | ---------------------------- |
+| ^[A-Za-z]+$                                                  | 由26个字母组成的字符串       |
+| ^[A-Za-z0-9]+$                                               | 由26个字母和数字组成的字符串 |
+| ^-?\d+$                                                      | 整数形式的字符串             |
+| ^[0-9]\*\[1-9][0-9]*$                                        | 正整数形式的字符串           |
+| [1-9]\d{5}                                                   | 中国境内邮政编码，6位        |
+| [\u4e00-\u9fa5]                                              | 匹配中文字符                 |
+| \d{3}-\d{8}\|\d{4}-\d{7}                                     | 国内电话号码，010-68913536   |
+| (([1-9]?\d\|1\d{2}\|2[0-4]\d\|25[0-5]).){3}([1-9]?\d\|1\d{2}\|2[0-4]\d\|25[0-5]) | IP地址                       |
+| http?://[a-zA-Z0-9\.\?/%-_]*                                 | 网址链接                     |
 
 
 
@@ -1430,6 +1553,8 @@ StringBuilder sb = new StringBuilder(String str);
 
 ArrayList代表的是集合类，集合是一种容器，与数组类似，不同的是**集合的大小和数据类型是不固定的**。同时ArrayList提供了比数组更好用，更丰富的API (功能)给程序员使用。
 
+ArraList不支持基本数据类型，只支持对应的[包装类型](#包装类) 
+
 ### 创建对象
 
 ```java
@@ -1454,6 +1579,54 @@ ArrayList<Integer> ls1 = new ArrayList<>();//从JDK 1.7开始，泛型后面的�
 | list.remove(int index)         | E       | 删除指定索引的元素，返回被删除的元素                         |
 | list.remove(Object o)          | boolean | 删除指定的第一个元素，返回删除是否成功(若要删除整数则这样写：`(Integer) 数字`) |
 | list.set(int index, E element) | E       | 修改指定索引处的元素，返回被修改的元素                       |
+
+
+
+
+
+## Arrays
+
+数组操作工具类，专门用于操作数组元素。不能创建对象
+
+### 常用方法
+
+| 方法                                    | 返回值 | 说明                                                         |
+| --------------------------------------- | ------ | ------------------------------------------------------------ |
+| Arrays.toString(类型[] a)               | String | 返回数组内容                                                 |
+| Arrays.sort(类型[] a)                   | void   | 对数组进行默认升序排序                                       |
+| Arrays.sort(类型[] a, Comparator\<T> c) | \<T>   | 使用比较器对象自定义排序                                     |
+| Arrays.binarySearch(int[] a, int key)   | int    | 二分搜索数据(必须排好序)，存在返回索引，不存在返回`-(应该插入的位置+1)` |
+
+
+
+### 比较器接口
+
+用来自定义对象的比较方式的接口，需要**重写compare(\<T> o1, \<T> o2)函数** 
+
+注意：比较器对象只能支持引用类型！
+
+compare(\<T> o1, \<T> o2)函数重写规则：
+
+* 如果认为左边数据大于右边数据返回正整数
+* 如果认为左边数据小于右边数据返回负整数
+* 如果认为左边数据等于右边数据返回0
+
+示例：
+
+```java
+Integer[] arr1 = {5,1,2,4,3};
+Arrays.sort(arr1);
+System.out.println(Arrays.toString(arr1)); // [1, 2, 3, 4, 5] 默认升序排序
+
+Integer[] arr2 = {5,1,2,4,3};
+Arrays.sort(arr2, new Comparator<Integer>() {
+	@Override
+	public int compare(Integer o1, Integer o2) {
+		return o2 - o1; // 降序
+	}
+});
+System.out.println(Arrays.toString(arr2)); // [5, 4, 3, 2, 1] 按照比较器对象定义进行排序
+```
 
 
 
@@ -1760,11 +1933,36 @@ JDK8 新增​日期类。在Date, SimpleDateFormat, Calendar这几个经典的�
 
 ## 包装类
 
+其实就是8种基本数据类型对应的引用类型。原基础类型只能看作是一种符号，而包装类才是对象
+
+集合和泛型只能支持包装类型，不支持基本数据类型。
+
+| 基本数据类型 | 引用数据类型 |
+| ------------ | ------------ |
+| byte         | Byte         |
+| short        | Short        |
+| int          | Integer      |
+| long         | Long         |
+| char         | Character    |
+| float        | Float        |
+| double       | Double       |
+| boolean      | Boolean      |
+
+### 特点
+
+* 包装类的变量的默认值可以是`null`，容错率更高。
+* 基本数据类型和包装类可以相互赋值转换
+* 可以通过`.toString()`方法可以转换成字符串类型
+* 可以通过`.valueOf(String str)`将字符串转换成对应的类型
 
 
 
+###  常用方法
 
-
+| 方法                     | 返回值 | 说明                     |
+| ------------------------ | ------ | ------------------------ |
+| type.toString()          | String | 转换成字符串类型         |
+| type.valueOf(String str) | type   | 将字符串转换成对应的类型 |
 
 
 
