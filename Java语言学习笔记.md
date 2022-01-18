@@ -45,7 +45,7 @@
 
 ### 包
 
-包是用来分门别类的管理各种不同类的，类似于文件夹、建包利于程序的管理和维护。
+包是用来分门别类的管理各种不同类的，类似于文件夹、建包利于程序的管理和维护
 
 建包的语法格式: `package 公司域名倒写.技术名称`。包名建议全部英文小写，且具备意义
 
@@ -241,20 +241,17 @@ double b;
 
 * 引用类型变量存储的是堆区域的地址
 
-```java
-String
-数组
-```
+常见的有[String](#String)和数组，以上8种基本数据类型也有[相对应的引用类型](#包装类) 
 
 
 
 ### 自动类型转换
 
-整型、实型（常量）、字符型数据可以混合运算。运算中，不同类型的数据先转化为同一类型，然后进行运算。
+整型、实型（常量）、字符型数据可以混合运算。运算中，不同类型的数据先转化为同一类型，然后进行运算
 
-但是不能对boolean类型进行类型转换。
+但是不能对boolean类型进行类型转换
 
-转换从低级到高级。
+转换从低级到高级
 
 ```java
 低  ------------------------------------>  高
@@ -425,7 +422,7 @@ else{
 
 ### switch...case
 
-* 表达式类型只能是`byte, short, int, char`，JDK5开始支持`枚举`，JDK7开始支持`String`，**不支持`double, float, long`**。 
+* 表达式类型只能是`byte, short, int, char`，JDK5开始支持`枚举`，JDK7开始支持`String`，**不支持`double, float, long`** 
 * case给出的值不允许重复，且只能是常量
 * 不要忘记break！
 
@@ -682,7 +679,7 @@ public static int sum(int a, int b){
 
 ### 方法重载
 
-同一个类中，出现多个方法名称相同，但是形参列表是不同的，那么这些方法就是重载方法。
+同一个类中，出现多个方法名称相同，但是形参列表是不同的，那么这些方法就是重载方法
 
 相关链接：[方法重写](#方法重写) 
 
@@ -690,7 +687,7 @@ public static int sum(int a, int b){
 
 ### 可变参数
 
-JDK 1.5开始，Java支持传递同类型的可变参数给一个方法。
+JDK 1.5开始，Java支持传递同类型的可变参数给一个方法
 
 * 一个形参列表中只能有一个可变参数
 * 可变参数只能放在形参列表的最后面
@@ -714,12 +711,12 @@ show(5, 6, 3, 1, 2, 4);
 
 ## 构造器(构造方法)
 
-**在生成一个对象的时候自动调用执行构造器**，构造器用于初始化一个类的对象，并返回对象的地址。
+**在生成一个对象的时候自动调用执行构造器**，构造器用于初始化一个类的对象，并返回对象的地址
 
 构造器根据传入参数的有无分为 无参构造器 和 有参构造器
 
-* 任何类定义出来，默认就自带了无参数构造器。
-* 一旦定义了有参数构造器，默认的无参数构造器就没有了，此时就需要自己写一个无参数构造器。
+* 任何类定义出来，默认就自带了无参数构造器
+* 一旦定义了有参数构造器，默认的无参数构造器就没有了，此时就需要自己写一个无参数构造器
 
 ```java
 修饰符 类名(形参列表){
@@ -748,9 +745,9 @@ class People{
 
 final 关键字是最终的意思，可以修饰（方法，变量，类) 
 
-* 修饰方法：表明该方法是最终方法，不能被[重写](#方法重写)。
-* 修饰变量：表示该变量第一次赋值后，不能再次被赋值(有且仅能被赋值一次)。
-* 修饰类：表明该类是最终类，不能被继承。
+* 修饰方法：表明该方法是最终方法，不能被[重写](#方法重写) 
+* 修饰变量：表示该变量第一次赋值后，不能再次被赋值(有且仅能被赋值一次)
+* 修饰类：表明该类是最终类，不能被继承
 
 示例：(比较少用)
 
@@ -762,12 +759,12 @@ public final class String{
 
 ### 常量
 
-常量是使用了`public static final`修饰的成员变量，必须有初始化值，而且执行的过程中其值不能被改变。
+常量是使用了`public static final`修饰的成员变量，必须有初始化值，而且执行的过程中其值不能被改变
 
-可以用于做系统的配置信息，方便程序的维护，同时也能提高可读性。
+可以用于做系统的配置信息，方便程序的维护，同时也能提高可读性
 
 * 建议命名全部大写，间隔用下划线`_`连接，如`MAX_WIDTH` 
-* 在编译阶段会进行“宏替换”，把使用常量的地方全部替换成真实的字面量。
+* 在编译阶段会进行“宏替换”，把使用常量的地方全部替换成真实的字面量
 
 ```java
 public static final double PI = 3.1415926;
@@ -779,7 +776,7 @@ public static final double PI = 3.1415926;
 
 ## this关键字
 
-出现在成员方法、构造器中**代表当前对象的地址**，用于访问当前对象的成员变量、成员方法。
+出现在成员方法、构造器中**代表当前对象的地址**，用于访问当前对象的成员变量、成员方法
 
 
 
@@ -819,7 +816,7 @@ public static int getMax(int a, int b){return a > b ? a : b;}
 
 ## 代码块
 
-在Java类下，使用(}括起来的代码被称为代码块。
+在Java类下，使用(}括起来的代码被称为代码块
 
 代码块分为 静态代码块 和 构造代码块
 
@@ -827,7 +824,7 @@ public static int getMax(int a, int b){return a > b ? a : b;}
 
 * 格式：`static{}` 
 * 特点：随着类的加载而加载，并且自动触发、只执行一次
-* 使用场景：在类加载的时候做一些静态数据初始化的操作，以便后续使用。
+* 使用场景：在类加载的时候做一些静态数据初始化的操作，以便后续使用
 
 
 
@@ -886,9 +883,9 @@ h.show();// 重量占比：0.25%
 
 ### 匿名内部类
 
-本质上是一个没有名字的局部内部类，定义在方法中、代码块中、等。
+本质上是一个没有名字的局部内部类，定义在方法中、代码块中、等
 
-作用：方便创建子类对象，最终目的为了简化代码编写。
+作用：方便创建子类对象，最终目的为了简化代码编写
 
 当然还可以用[Lambda表达式](#Lambda(箭头函数))进一步简化
 
@@ -933,7 +930,7 @@ tiger.eat(); // 吃肉
 
 ## 封装
 
-封装是隐藏类的内部实现机制，可以在不影响使用的情况下，改变类的内部结构，同时也保护了数据。且对外部只保留一些对外接口使之与外部发生联系。
+封装是隐藏类的内部实现机制，可以在不影响使用的情况下，改变类的内部结构，同时也保护了数据。且对外部只保留一些对外接口使之与外部发生联系
 
 加强了程序代码的安全性。适当的封装可以提升开发效率，同时可以让程序更容易理解与维护
 
@@ -954,15 +951,15 @@ tiger.eat(); // 吃肉
 
 ### JavaBean
 
-JavaBean是一种书写类的规范，表达实体和信息的规范，便于封装重用，类内部提供了一些公共的方法以便外界对该对象内部属性进行操作，比如set、get操作。
+JavaBean是一种书写类的规范，表达实体和信息的规范，便于封装重用，类内部提供了一些公共的方法以便外界对该对象内部属性进行操作，比如set、get操作
 
 #### 书写标准
 
 标准avaBean须满足如下要求:
 
-1. 成员变量使用private修饰。
-2. 提供每一个成员变量对应的`setXxx() / getXxx()`。 
-3. 必须提供一个无参构造器。
+1. 成员变量使用private修饰
+2. 提供每一个成员变量对应的`setXxx() / getXxx()` 
+3. 必须提供一个无参构造器
 
 
 
@@ -985,9 +982,9 @@ JavaBean是一种书写类的规范，表达实体和信息的规范，便于封
 
 ## 继承
 
-子类继承父类之后会有父类的所以方法和属性，父类的私有方法是不能被继承的。子类可以**重写**父类的所有方法。
+子类继承父类之后会有父类的所以方法和属性，父类的私有方法是不能被继承的。子类可以**重写**父类的所有方法
 
-子类又称为派生类，父类又称为基类或超类。
+子类又称为派生类，父类又称为基类或超类
 
 * Java不支持多继承（一个类继承于多个父类），但是支持多层继承
 * Java中所有的类都是`Object类`的子类
@@ -1007,15 +1004,15 @@ public class Student extends People{}
 
 ### 方法重写
 
-子类拥有和父类名称相同，参数相同的方法，就是方法重写覆盖。
+子类拥有和父类名称相同，参数相同的方法，就是方法重写覆盖
 
 * 私有方法不能被重写
 * 子类重写父类方法时，访问权限必须大于或者等于父类方法（`缺省` < `protected` < `public`）
 
 #### @override重写注解
 
-* `@Override`是放在重写后的方法上，作为重写是否正确的校验注解。
-* 加上该注解后如果重写错误，编译阶段会出现错误提示。
+* `@Override`是放在重写后的方法上，作为重写是否正确的校验注解
+* 加上该注解后如果重写错误，编译阶段会出现错误提示
 * 这样既安全又规范
 
 
@@ -1053,15 +1050,15 @@ class Wolf extends Animal{
 
 ### 构造器执行规则
 
-子类中所有的构造器默认都会先访问父类中无参的构造器，再执行自己。
+子类中所有的构造器默认都会先访问父类中无参的构造器，再执行自己
 
-因为子类初始化之前，一定要调用父类构造器先完成父类数据空间的初始化。
+因为子类初始化之前，一定要调用父类构造器先完成父类数据空间的初始化
 
-原理：子类构造器的第一行语句默认都是：`super()`，不写也存在。
+原理：子类构造器的第一行语句默认都是：`super()`，不写也存在
 
 **注意：** 
 
-​	如果父类中没有无参数构造器，只有有参构造器，则会报错。
+​	如果父类中没有无参数构造器，只有有参构造器，则会报错
 
 ​	解决方法是：在子类构造器中书写`super(...)`来手动调用父类的有参构造器
 
@@ -1069,7 +1066,7 @@ class Wolf extends Animal{
 
 ### 抽象类
 
-父类只定义功能的基本要求，具体实现由子类完成，这个类就可以是一个抽象类.。
+父类只定义功能的基本要求，具体实现由子类完成，这个类就可以是一个抽象类.
 
 **抽象类不能实例化对象**，但是类的其它功能依然存在，成员变量、成员方法和构造方法的访问方式和普通类一样
 
@@ -1089,7 +1086,7 @@ public abstract class Animal {
 
 就是抽象类中定义的子类必须完成的功能的基本要求。**子类必须重写或者将其继续定义为抽象方法**！
 
-没有方法体，只有方法签名，必须`abstract`修饰。
+没有方法体，只有方法签名，必须`abstract`修饰
 
 示例：
 
@@ -1105,7 +1102,7 @@ public abstract class Animal {
 
 ## 多态
 
-同类型的对象，执行同一个行为，会表现出不同的行为特征。
+同类型的对象，执行同一个行为，会表现出不同的行为特征
 
 比如说：
 
@@ -1113,8 +1110,8 @@ public abstract class Animal {
 现实中，比如我们按下 F1 键这个动作：
 	如果当前在 Flash 界面下弹出的就是 AS 3 的帮助文档；
 	如果当前在 Word 下弹出的就是 Word 帮助；
-	在 Windows 下弹出的就是 Windows 帮助和支持。
-同一个事件发生在不同的对象上会产生不同的结果。
+	在 Windows 下弹出的就是 Windows 帮助和支持
+同一个事件发生在不同的对象上会产生不同的结果
 ```
 
 
@@ -1243,9 +1240,9 @@ public void petWork(Animal a){
 
 # 垃圾回收机制
 
-Java存在自动垃圾回收器，会定期进行清理。
+Java存在自动垃圾回收器，会定期进行清理
 
-当堆内存中的类对象或数组对象，没有被任何变量引用（指向）时，就会被判定为内存中的“垃圾”。
+当堆内存中的类对象或数组对象，没有被任何变量引用（指向）时，就会被判定为内存中的“垃圾”
 
 
 
@@ -1261,9 +1258,9 @@ Java存在自动垃圾回收器，会定期进行清理。
 
 # 接口
 
-在 Java 中，接口可理解为对象间相互通信的协议。接口在继承中扮演着很重要的角色。接口是更加彻底的抽象。
+在 Java 中，接口可理解为对象间相互通信的协议。接口在继承中扮演着很重要的角色。接口是更加彻底的抽象
 
-接口只定义派生要用到的方法，但是方法的具体实现完全取决于派生类。
+接口只定义派生要用到的方法，但是方法的具体实现完全取决于派生类
 
 ## 定义
 
@@ -1315,7 +1312,7 @@ public class Student implements Human{
 
 ## 接口之间的继承
 
-接口和接口是可以多继承的，即一个接口可以同时继承多个接口。
+接口和接口是可以多继承的，即一个接口可以同时继承多个接口
 
 * 若所继承的接口之间存在 <u>方法名相同，参数列表相同，但是返回值不同</u> 的方法时，会产生冲突不能同时继承
 * 若所继承的接口存在 <u>名称相同的常量</u> 时，虽然可以继承，但是无法使用此常量
@@ -1470,6 +1467,42 @@ e -> {
 
 
 
+## 方法引用
+
+方法引用是java8的新特性之一， 可以直接引用已有Java类或对象的方法或构造器。方法引用与lambda表达式结合使用，可以进一步简化代码
+
+使用场景：**lambda表达式的主体仅包含一个表达式，且该表达式仅调用了一个已经存在的方法**。方法引用的**通用特性**：**方法引用所使用方法的入参和返回值与lambda表达式实现的函数式接口的入参和返回值一致** 
+
+方法引用使用操作符`::`将方法名和对象或者类的名字分隔开来
+
+方法引用有四种形式：
+
+- 静态方法引用　　　　　　　：　 　`ClassName :: 静态方法名` 
+- 构造器引用　　　　　　　　：　 　`ClassName :: new` 
+- 类的任意对象的实例方法引用：　 　`ClassName :: 实例方法名` 
+- 特定对象的实例方法引用　　：　 　`object :: 实例方法名` 
+
+示例：
+
+```java
+x -> System.out.println(x);
+System.out::println; // 静态方法引用
+
+BinaryOperator<Double> bo = (x, y) -> Math.pow(x, y);
+BinaryOperator<Double> bo = Math::pow; // 静态方法引用
+    
+Supplier<List<String>> supplier = () -> new  ArrayList<String>();
+Supplier<List<String>> supplier = ArrayList<String>::new; // 构造器引用
+
+Arrays.sort(strs, (s1, s2) -> s1.compareToIgnoreCase(s2));
+Arrays.sort(strs, String::compareToIgnoreCase); // 类的任意对象的实例方法引用
+
+Car police = Car.create( Car::new );
+cars.forEach( police::follow ); // 特定对象的实例方法引用
+```
+
+
+
 
 
 
@@ -1482,7 +1515,7 @@ e -> {
 
 # 泛型
 
-JDK5 中引入的特性，可以在编译阶段约束操作的数据类型，并进行检查。
+JDK5 中引入的特性，可以在编译阶段约束操作的数据类型，并进行检查
 
 * **泛型只支持引用数据类型** 
 * 泛型在类后面定义叫泛型类
@@ -1511,7 +1544,7 @@ public class MyArrayList<E> {
 
 定义方法时同时定义了泛型的方法就是泛型方法
 
-* 方法中可以使用泛型接收一切实际类型的参数，方法更具备通用性。
+* 方法中可以使用泛型接收一切实际类型的参数，方法更具备通用性
 
 ```java
 修饰符 <泛型变量> 返回值类型 方法名(形参列表){...}
@@ -1589,24 +1622,6 @@ go(dogs);//报错，ArrayList<Dog>不能传入此参数
 
 
 
-# Map集合体系
-
-和Collection集合体系是并列关系，数据以键值对的形式存储
-
-<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220117234518492.png" alt="image-20220117234518492" style="zoom:67%;" />
-
-
-
-
-
-
-
-
-
----
-
-
-
 # Collection集合体系
 
 * 集合支持泛型
@@ -1621,16 +1636,17 @@ go(dogs);//报错，ArrayList<Dog>不能传入此参数
 
 ### 常用方法
 
-| 方法                     | 返回值  | 说明                         |
-| ------------------------ | ------- | ---------------------------- |
-| c.add(\<T> val)          | boolean | 添加元素，返回是否头添加成功 |
-| c.clear()                | void    | 清空集合                     |
-| c.isEmpty()              | boolean | 判断集合是否为空             |
-| c.size()                 | int     | 返回集合元素数量             |
-| c.contains(\<T> val)     | boolean | 判断集合中是否有指定元素     |
-| c.remove(\<T> val)       | boolean | 删除元素，返回是否删除成功   |
-| c.toArray()              | Object  | 转换成数组                   |
-| c1.addAll(Collection c2) | boolean | 将c2集合中的元素添加至c1     |
+| 方法                     | 返回值     | 说明                         |
+| ------------------------ | ---------- | ---------------------------- |
+| c.add(T val)             | boolean    | 添加元素，返回是否头添加成功 |
+| c.clear()                | void       | 清空集合                     |
+| c.isEmpty()              | boolean    | 判断集合是否为空             |
+| c.size()                 | int        | 返回集合元素数量             |
+| c.contains(T val)        | boolean    | 判断集合中是否有指定元素     |
+| c.remove(T val)          | boolean    | 删除元素，返回是否删除成功   |
+| c.toArray()              | Object     | 转换成数组                   |
+| c1.addAll(Collection c2) | boolean    | 将c2集合中的元素添加至c1     |
+| c.stream()               | Stream\<T> | 获取Stream流                 |
 
 
 
@@ -1696,11 +1712,12 @@ collections类是一个操作集合的工具类，并不属于collection集合�
 
 | 方法                                   | 返回值   | 说明                               |
 | -------------------------------------- | -------- | ---------------------------------- |
-| ls.add(int index, \<T> element)        | void     | 在索引处插入元素                   |
-| ls.remove(int index)                   | \<T>     | 删除索引处的元素，返回被删除的元素 |
-| ls.get(int index)                      | \<T>     | 获取索引处的元素值                 |
-| ls.set(int index, \<T> val)            | \<T>     | 修改索引处的值，返回被修改的元素   |
+| ls.add(int index, T element)           | void     | 在索引处插入元素                   |
+| ls.remove(int index)                   | T        | 删除索引处的元素，返回被删除的元素 |
+| ls.get(int index)                      | T        | 获取索引处的元素值                 |
+| ls.set(int index, T val)               | T        | 修改索引处的值，返回被修改的元素   |
 | ls.subList(int fromindex, int toIndex) | List\<T> | 截取子链（左闭右开）               |
+| List.of(T... elements)                 | List\<T> | 创建不可变集合                     |
 
 
 
@@ -1721,7 +1738,7 @@ for (int i = 0; i < ls.size(); i++) {
 
 ##  ArrayList
 
-ArrayList代表的是集合类，集合是一种容器，与数组类似，不同的是**集合的大小和数据类型是不固定的**。同时ArrayList提供了比数组更好用，更丰富的API给程序员使用。
+ArrayList代表的是集合类，集合是一种容器，与数组类似，不同的是**集合的大小和数据类型是不固定的**。同时ArrayList提供了比数组更好用，更丰富的API给程序员使用
 
 * ArrayList底层是基于数组实现的
 * 第一次创建集合并添加第一个元素的时候，在底层创建一个默认长度为10的数组，若空间不够则会自动扩容为原来的1.5倍并迁移数据
@@ -1763,14 +1780,14 @@ List<Integer> ls1 = new ArrayList<>();//从JDK 1.7开始，泛型后面的类型
 
 ### 常用方法
 
-| 方法                                                | 返回值 | 说明                                   |
-| --------------------------------------------------- | ------ | -------------------------------------- |
-| ls.addFirst(\<T> val)，offerFirst()，push(\<T> val) | void   | 在列表开头插入数据                     |
-| ls.addLast(\<T> val)，offerLast(\<T> val)           | void   | 在列表结尾插入数据                     |
-| ls.getFirst()                                       | \<T>   | 返回列表的第一个元素                   |
-| ls.getLast()                                        | \<T>   | 返回列表的最后一个元素                 |
-| ls.removeFirst()，pop()                             | \<T>   | 删除列表第一个元素，并返回删除的元素   |
-| ls.removeLast()                                     | \<T>   | 删除列表最后一个元素，并返回删除的元素 |
+| 方法                                          | 返回值 | 说明                                   |
+| --------------------------------------------- | ------ | -------------------------------------- |
+| ls.addFirst(T val)，offerFirst()，push(T val) | void   | 在列表开头插入数据                     |
+| ls.addLast(T val)，offerLast(T val)           | void   | 在列表结尾插入数据                     |
+| ls.getFirst()                                 | T      | 返回列表的第一个元素                   |
+| ls.getLast()                                  | T      | 返回列表的最后一个元素                 |
+| ls.removeFirst()，pop()                       | T      | 删除列表第一个元素，并返回删除的元素   |
+| ls.removeLast()                               | T      | 删除列表最后一个元素，并返回删除的元素 |
 
 
 
@@ -1794,7 +1811,7 @@ Set集合的功能基本上与[Collection](#Collection)的API一致
 
 功能基本上与[Collection](#Collection)的API一致，元素无序且添加元素会去重而已
 
-### 底层
+### 底层原理
 
 哈希表数组的默认长度为16，默认加载因子为0.75
 
@@ -1832,9 +1849,9 @@ Set集合的功能基本上与[Collection](#Collection)的API一致
 
 * 底层基于红黑树实现排序
 
-对于数值类型：`Integer` , `Double`，官方默认按照大小进行升序排序。
+对于数值类型：`Integer` , `Double`，官方默认按照大小进行升序排序
 
-对于字符串类型：默认按照首字符的编号升序排序。
+对于字符串类型：默认按照首字符的编号升序排序
 
 对于自定义类型：需要制定排序规则
 
@@ -1867,6 +1884,393 @@ Set<Apple> apples = new TreeSet<>((o1,o2) ->{
 });
 //或者
 Set<Apple> apples = new TreeSet<>((o1, o2) -> Double.compare(o1.price, o2.price));
+```
+
+
+
+
+
+
+
+
+
+---
+
+
+
+# Map集合体系
+
+和Collection集合体系是并列关系，数据以键值对的形式存储
+
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220117234518492.png" alt="image-20220117234518492" style="zoom:67%;" />
+
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220118181545697.png" alt="image-20220118181545697" style="zoom: 67%;" />
+
+## Map
+
+* 后面重复的键会覆盖前面重复键的值
+* 键值对都可以为`null` 
+
+### 常用方法
+
+| 方法                               | 返回值         | 说明                                     |
+| ---------------------------------- | -------------- | ---------------------------------------- |
+| m.put(K key, V value)              | V              | 添加键值对                               |
+| m.get(K key)                       | V              | 根据键获取值，没有则返回`null`           |
+| m.remove(K Key)                    | V              | 根据键删除键值对元素，返回被删除元素的值 |
+| m.clear()                          | void           | 清空元素                                 |
+| m.containsKey(K key)               | boolean        | 判断集合是否包含指定的键                 |
+| m.containsValue(V value)           | boolean        | 判断集合是否包含指定的值                 |
+| m.isEmpty()                        | boolean        | 判断集合是否为空                         |
+| m.size()                           | int            | 返回集合中键值对的数量                   |
+| m.KeySet()                         | Set\<K>        | 返回所有键的集合                         |
+| m.values()                         | Collection\<V> | 返回所有值的集合                         |
+| m1.putAll(Map\<K, V> m2)           | void           | 将集合m2的内容拷贝到集合m1               |
+| Map.of(K k1, V v1, K k2, V v2,...) | Map<K, V>      | 返回对应的不可变集合                     |
+
+
+
+### 遍历
+
+1. 根据所有键找值
+
+```java
+Map<Integer, String> m = new HashMap<>();
+m.put(1, "一");m.put(2, "二");m.put(3, "三");m.put(4, "四");
+
+Set<Integer> keys = m.keySet();
+for (Integer key : keys) {
+	String value = m.get(key);
+	System.out.println(value);
+}
+```
+
+2. 获取键值对对象进行遍历
+
+```java
+Set<Map.Entry<Integer, String>> entries = m.entrySet(); // 封装成键值对对象的集合
+for (Map.Entry<Integer, String> entry : entries) {
+	Integer key = entry.getKey();
+	String value = entry.getValue();
+	System.out.println(key + " : " + value);
+}
+```
+
+3. 使用forEach和Lambda表达式遍历
+
+```java
+m.forEach((k, v) -> {
+	System.out.println(k + " : " + v);
+});
+```
+
+
+
+
+
+## HashMap
+
+HashMap的键是无序，不重复的，与Map一致
+
+方法和Map基本一致
+
+### 底层原理
+
+HashMap和HashSet的底层原理是一样的，都是哈希表结构，只是HashMap的每个元素包含两个值而已。（HashSet其实就是没有值的HashMap）
+
+说明：
+
+哈希表数组的默认长度为16，默认加载因子为0.75
+
+采用拉链法，当链表长度超过8时，自动将此链转换为红黑树
+
+当数组存满`长度*加载因子`即16*0.75=12个元素时，就会将长度扩容为原来的两倍
+
+去重判断：先调用hashCode()方法比较哈希值，再调用equals()的比较结果
+
+所以：**类要实现根据内容去重的话，要重写hashCode()和equals()方法** 
+
+
+
+
+
+
+
+## LinkedHashMap
+
+LinkedHashMap的键是**有序**，不重复的
+
+方法和Map基本一致
+
+* 底层原理是哈希表，只是每个键值对又额外的多了一个双链表的机制记录存储的顺序
+
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220118002819057.png" alt="image-20220118002819057" style="zoom:50%;" />
+
+
+
+
+
+## TreeMap
+
+TreeMap的**键是可排序**，不重复的
+
+* 底层基于红黑树实现排序
+
+### 自定义排序规则
+
+如果两种方法都用了，按照集合的比较器来排序
+
+* 如果认为第一个数据大于第二个数据返回正整数
+* 如果认为第一个数据小于第二个数据返回负整数
+* 如果认为第一个数据等于第二个数据返回0
+
+1. 实现`Comparable`接口，重写`compareTo`方法来定制比较规则
+
+```java
+class Apple implements Comparable<Apple>{
+	double price;
+	@Override
+	public int compareTo(Apple o) {
+		return Double.compare(this.price, o.price);
+	}
+}
+Map<Apple, String> apples = new TreeMap();
+```
+
+2. 使用TreeMap的有参构造器，设置`Comparator`接口对应的比较器对象，来定制比较规则
+
+```java
+Map<Apple, String> apples = new TreeMap<>(( o1, o2) ->{
+	return Double.compare(o1.price, o2.price)
+});
+//或者
+Map<Apple,String> apples = new TreeMap<>(( o1, o2) -> Double.compare(o1.price, o2.price));
+```
+
+
+
+
+
+
+
+
+
+---
+
+
+
+# 异常
+
+## 异常体系
+
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220118220334016.png" alt="image-20220118220334016" style="zoom: 67%;" />
+
+
+
+
+
+## 处理异常
+
+### 抛出异常
+
+将方法内部出现的异常抛出去给本方法的调用者处理
+
+```java
+// 1.抛出指定异常
+方法 throws 异常1, 异常2, 异常3,... {
+    ...;
+}
+
+// 2.抛出所有异常
+方法 throws Exception {
+    ...;
+}
+```
+
+
+
+### try...catch捕获异常
+
+监视捕获异常，用在方法内部，可以将方法内部出现的异常直接捕获处理
+
+```java
+// 1.格式
+try {
+    //这里写正常处理的代码,若出现异常会马上转到catch里
+    ...
+}catch (异常类型1 变量) {
+    //处理相应异常
+}catch (异常类型2 变量) {
+    //处理相应异常
+}...
+    
+// 2.官方建议的格式
+try {
+    ...
+}catch (Exception e) {// 捕获所有可能的异常
+    e.printStackTrace();// 打印异常栈信息
+}
+```
+
+
+
+
+
+## 自定义异常
+
+### 自定义编译时异常
+
+作用：编译时异常是编译阶段就报错，提醒更加强烈，一定需要处理!!
+
+1. 定义一个异常类继承`Exception` 
+2. 重写构造器
+3. 在出现异常的地方用`throw new`将自定义对象抛出
+
+```java
+public class AgeIlleagalException extends Exception{ // 自定义异常类
+	public AgeIlleagalException(String message) {
+		super(message);
+	}
+}
+
+public static void checkAge(int age) throws AgeIlleagalException {
+	if (age < 0 || age > 200) {
+		throw new AgeIlleagalException(age + "不合法"); // 不合法时抛出异常
+	}
+}
+```
+
+
+
+### 自定义运行时异常
+
+作用：提醒不强烈，编译阶段不报错!!运行时才可能出现!!
+
+1. 定义一个异常类继承`RuntimeException` 
+2. 重写构造器
+3. 在出现异常的地方用`throw new`将自定义对象抛出
+
+```java
+public class AgeIlleagalException extends RuntimeException{ // 自定义异常类
+	public AgeIlleagalException(String message) {
+		super(message);
+	}
+}
+
+public static void checkAge(int age) {
+	if (age < 0 || age > 200) {
+		throw new AgeIlleagalException(age + "不合法"); // 不合法时抛出异常
+	}
+}
+```
+
+
+
+
+
+
+
+
+
+---
+
+
+
+# Stream流
+
+用于简化集合和数组操作的API。通过**链式编程**的形式配合Lambda表达式，像流水线一样处理集合中的元素
+
+流程：
+
+1. 获取Stream流
+2. 中间方法
+3. 终结方法
+
+## 获取Stream流
+
+集合：通过`.stream()`方法获取
+
+数组：通过`Arrays.stream(数组名)`或者`Stream.of(数组名)`静态方法获取
+
+示例：
+
+```java
+Collection<String> list = new ArrayList<>();
+Stream<String> s1 = list.stream();
+
+Map<String, Integer> maps = new HashMap<>();
+Stream<String> s2 = maps.keySet().stream(); // 键流
+Stream<Integer> s3 = maps.values().stream(); // 值流
+Stream<Map.Entry<String, Integer>> s4 = maps.entrySet().stream(); // 键值对流
+
+Integer[] arr = {1, 2, 3, 4, 5, 6};
+Stream<Integer> s5 = Arrays.stream(arr);
+Stream<Integer> s6 = Stream.of(arr);
+```
+
+
+
+
+
+## 常用方法
+
+| 方法                                        | 返回值       | 说明                                                |
+| ------------------------------------------- | ------------ | --------------------------------------------------- |
+| s.filter(Predicate<? super T> p)            | Stream\<T>   | 根据重写的test方法，对流中的每一个数据进行过滤      |
+| s.map(Function<? super T, ? extend s R> f)  | Stream\<R>   | 根据重写的apply方法，对流中的每一个数据进行加工处理 |
+| s.sorted(Comparator<? super T> c)           | Stream\<T>   | 根据重写的compare方法，进行排序                     |
+| s.max(Comparator<? super T> c)，s.min(...)  | Optional\<T> | 根据重写的compare方法，获得最大、最小值             |
+| s.limit(long n)                             | Stream\<T>   | 获取前几个元素                                      |
+| s.skip(long n)                              | Stream\<T>   | 跳过前几个元素                                      |
+| s.distinct()                                | Stream\<T>   | 去除流中重复的元素（依赖hashCode和equals方法）      |
+| Stream.concat(Stream\<T> s1, Stream\<T> s2) | Stream\<T>   | 将两个流合并成一个流                                |
+| s.forEach(Consumer<? super T> action)       | void         | 根据重写的accept方法，对流中的每一个数据进行操作    |
+| s.count()                                   | long         | 返回流中元素个数                                    |
+
+示例：
+
+```java
+Integer[] arr = {1, 2, 3, 4, 5, 6};
+Arrays.stream(arr).filter(x -> x > 3).map(x -> x + 1).forEach(x -> System.out.println(x)); // 5 6 7
+```
+
+
+
+
+
+## 收集Stream流
+
+就是把Stream流操作后的结果数据转回到集合或者数组中去
+
+使用`s.collect(收集器)`和`toArray()`方法即可收集数据
+
+注意：一个流只能被收集一次
+
+示例：
+
+```java
+// 1.收集为列表
+List<Integer> ls = new ArrayList<>();
+Collections.addAll(ls, 1, 2, 3, 4, 5, 6);
+Stream<Integer> s1 = ls.stream().filter(x -> x > 3).map(x -> x + 1);
+List<Integer> ls2 = s1.collect(Collectors.toList()); // 收集为列表
+// List<Integer> ls2 = s1.toList(); // 新增的接口,不过返回的是不可变集合
+System.out.println(ls2);
+
+// 2.收集为集合
+Set<Integer> st = new HashSet<>();
+Collections.addAll(st, 1, 2, 3, 4, 5, 6);
+Stream<Integer> s2 = st.stream().filter(x -> x > 3).map(x -> x + 1);
+Set<Integer> st2 = s2.collect(Collectors.toSet()); // 收集为集合
+System.out.println(st2);
+
+// 3.收集为数组
+Integer[] arr = {1, 2, 3, 4, 5, 6};
+Stream<Integer> s3 = Arrays.stream(arr).filter(x -> x > 3).map(x -> x + 1);
+Object[] arr2 = s3.toArray(); // 收集成数组，注意返回类型为Object[]
+//Integer[] arr2 = s3.toArray(Integer[]::new); // 直接转为Integer[]类型
+System.out.println(Arrays.toString(arr2));
+
 ```
 
 
@@ -1924,7 +2328,7 @@ Objects类还是继承于Object，该类从JDK 1.7后才有，提供了更安全
 
 String类定义的变量可以用于存储字符串，同时String类提供了很多操作字符串的功能
 
-Java程序中的所有字符串文字（例如“abc”）都为此类的对象。
+Java程序中的所有字符串文字（例如“abc”）都为此类的对象
 
 ### 创建对象
 
@@ -2018,7 +2422,7 @@ System.out.println(s1 == s3);//true
 
 ## StringBuilder
 
-StringBuilder是一个可变的字符串类，可以提高字符串的操作效率，如拼接、修改等。(其实String对象的拼接操作底层是用StringBuilder来做的)
+StringBuilder是一个可变的字符串类，可以提高字符串的操作效率，如拼接、修改等 (其实String对象的拼接操作底层是用StringBuilder来做的)
 
 字符串的拼接，反转建议用StringBuilder
 
@@ -2057,7 +2461,7 @@ StringBuilder sb = new StringBuilder(String str);
 | --------------------------------------- | ------ | ------------------------------------------------------------ |
 | Arrays.toString(类型[] a)               | String | 返回数组内容                                                 |
 | Arrays.sort(类型[] a)                   | void   | 对数组进行默认升序排序                                       |
-| Arrays.sort(类型[] a, Comparator\<T> c) | \<T>   | 使用比较器对象自定义排序                                     |
+| Arrays.sort(类型[] a, Comparator\<T> c) | void   | 使用比较器对象自定义排序                                     |
 | Arrays.binarySearch(int[] a, int key)   | int    | 二分搜索数据(必须排好序)，存在返回索引，不存在返回`-(应该插入的位置+1)` |
 | Arrays.fill(int[] a, int val)           | void   | 将指定的值分配给指定 int 型数组指定范围中的每个元素。同样的方法适用于所有其他基本数据类型（Byte，short，Int等） |
 
@@ -2065,11 +2469,11 @@ StringBuilder sb = new StringBuilder(String str);
 
 ### 比较器接口
 
-用来自定义对象的比较方式的接口，需要**重写compare(\<T> o1, \<T> o2)函数** 
+用来自定义对象的比较方式的接口，需要**重写compare(T o1, T o2)函数** 
 
 注意：比较器对象只能支持引用类型！
 
-compare(\<T> o1, \<T> o2)函数重写规则：
+compare(T o1, T o2)函数重写规则：
 
 * 如果认为左边数据大于右边数据返回正整数
 * 如果认为左边数据小于右边数据返回负整数
@@ -2092,7 +2496,7 @@ Arrays.sort(arr2, new Comparator<Integer>() {
 System.out.println(Arrays.toString(arr2)); // [5, 4, 3, 2, 1] 按照比较器对象定义进行排序
 ```
 
-
+1
 
 
 
@@ -2110,10 +2514,11 @@ Scanner sc = new Scanner(System.in);
 
 ### 常用方法
 
-| 方法         | 返回值 | 说明                           |
-| ------------ | ------ | ------------------------------ |
-| sc.nextInt() | int    | 等待输入一个int类型，并返回    |
-| sc.next()    | String | 等待输入一个String类型，并返回 |
+| 方法          | 返回值 | 说明                                                 |
+| ------------- | ------ | ---------------------------------------------------- |
+| sc.nextInt()  | int    | 等待输入一个int类型，并返回                          |
+| sc.next()     | String | 等待输入一个String类型，并返回                       |
+| sc.nextLine() | String | 等待输入一行String类型数据直到按下回车键终止，并返回 |
 
 例：
 
@@ -2295,9 +2700,9 @@ Date d = new Date(long 时间戳); // 设置时间
 
 ## SimpleDateFormat
 
-可以对Date对象或时间戳格式化成其他时间形式。
+可以对Date对象或时间戳格式化成其他时间形式
 
-也可以把字符串的时间形式解析成日期对象。
+也可以把字符串的时间形式解析成日期对象
 
 ### 创建对象
 
@@ -2346,11 +2751,11 @@ https://tool.oschina.net/uploads/apidocs/jdk_7u4
 
 ## Calendar
 
-Calendar代表了系统此刻日期对应的日历对象。
+Calendar代表了系统此刻日期对应的日历对象
 
 ### 创建对象
 
-Calendar是一个抽象类，不能直接创建对象。但是可以通过静态方法创建对象。
+Calendar是一个抽象类，不能直接创建对象。但是可以通过静态方法创建对象
 
 ```java
 Calendar cld = Calendar.getInstance();
@@ -2377,9 +2782,9 @@ Calendar cld = Calendar.getInstance();
 
 ## 其他时间类型
 
-JDK8 新增​日期类。在Date, SimpleDateFormat, Calendar这几个经典的时间类上拓展了功能且更加灵活。
+JDK8 新增​日期类。在Date, SimpleDateFormat, Calendar这几个经典的时间类上拓展了功能且更加灵活
 
-新增的API严格区分了时刻、本地日期、本地时间，并且，对日期和时间进行运算更加方便。
+新增的API严格区分了时刻、本地日期、本地时间，并且，对日期和时间进行运算更加方便
 
 * 若需要用到查API文档即可，就不写了
 
@@ -2399,7 +2804,7 @@ JDK8 新增​日期类。在Date, SimpleDateFormat, Calendar这几个经典的�
 
 其实就是8种基本数据类型对应的引用类型。原基础类型只能看作是一种符号，而包装类才是对象
 
-集合和泛型只能支持包装类型，不支持基本数据类型。
+集合和泛型只能支持包装类型，不支持基本数据类型
 
 ![image-20220117194056317](https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220117194056317.png)
 
@@ -2418,7 +2823,7 @@ JDK8 新增​日期类。在Date, SimpleDateFormat, Calendar这几个经典的�
 
 ### 特点
 
-* 包装类的变量的默认值可以是`null`，容错率更高。
+* 包装类的变量的默认值可以是`null`，容错率更高
 * 基本数据类型和包装类可以相互赋值转换
 * 可以通过`.toString()`方法可以转换成字符串类型
 * 可以通过`.valueOf(String str)`将字符串转换成对应的类型
@@ -2452,6 +2857,13 @@ JDK8 新增​日期类。在Date, SimpleDateFormat, Calendar这几个经典的�
 
 
 
+
+
+
+
+
+
+---
 
 
 
