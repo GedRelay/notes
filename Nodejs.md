@@ -10,8 +10,6 @@ Node.js是一个基于Chrome V8引擎的JavaScript运行环境。
 
 [官方网站](https://nodejs.org/zh-cn/) 
 
-
-
 ## 在Node.js环境中执行JS代码
 
 使用cmd执行
@@ -19,6 +17,34 @@ Node.js是一个基于Chrome V8引擎的JavaScript运行环境。
 ```powershell
 node js文件的路径
 ```
+
+
+
+
+
+
+
+
+
+---
+
+
+
+# 内置模块
+
+## 导入模块
+
+使用`require(模块)`来导入模块。
+
+如果省略了文件的扩展名，则Node.js 会按顺序分别尝试加载以下的文件：
+
+1. 按照确切的文件名进行加载
+2. 补全`.js`扩展名进行加载
+3. 补全`.json`扩展名进行加载
+4. 补全`.node`扩展名进行加载
+5. 加载失败，终端报错
+
+
 
 
 
@@ -200,9 +226,6 @@ res是响应对象，可以访问与服务器相关的数据或属性
 | ---------------------- | ------------------------------------------------ |
 | res.end(内容)          | 向客户端发送指定的内容，并结束这次请求的处理过程 |
 | res.setHeader(字段:值) | 设置响应头字段信息                               |
-|                        |                                                  |
-|                        |                                                  |
-|                        |                                                  |
 
 ```js
 // 解决中文乱码问题
@@ -251,6 +274,139 @@ server.listen(80,() => {
 
 
 
+
+
+
+
+---
+
+
+
+# 自定义模块
+
+## module对象
+
+在每个.is自定义模块中都有一个module对象，它里面存储了和当前模块有关的信息
+
+```js
+console.log(module);
+
+Module {
+  id: '.',
+  path: 'D:\\0program\\HTML网页开发\\20220109test\\js',
+  exports: {},
+  filename: 'D:\\0program\\HTML网页开发\\20220109test\\js\\nodeLearn.js',
+  loaded: false,
+  children: [],
+  paths: [
+    'D:\\0program\\HTML网页开发\\20220109test\\js\\node_modules',        
+    'D:\\0program\\HTML网页开发\\20220109test\\node_modules',
+    'D:\\0program\\HTML网页开发\\node_modules',
+    'D:\\0program\\node_modules',
+    'D:\\node_modules'
+  ]
+}
+```
+
+### exports
+
+在自定义模块中，可以使用module.exports对象，将模块内的成员共享出去，供外界使用。
+
+外界用require()方法导入自定义模块时，得到的就是module.exports所指向的对象。
+
+```js
+exports.username = "Ged";
+exports.sayHello = function(){
+    console.log("Hello!");
+}
+```
+
+
+
+
+
+## 包结构
+
+一个规范的包，它的组成结构，必须符合以下3点要求:
+
+* 包必须以单独的目录而存在
+* 包的顶级目录下要必须包含`package.json`这个包管理配置文件
+* package.json中必须包含`name`，`version`，`main`这三个属性，分别代表包的名字、版本号、包的入口。
+
+$myTool文件夹\begin{cases}\ package.json & （包管理配置文件） \\ index.js & （包的入口文件） \\ README.md & （包的说明文档） \end{cases}$ 
+
+```json
+package.json文件内容示例,使用npm init -y可以自动生成
+
+{
+    "name": "myFirstTool",
+    "version": "1.0.0",
+    "main": "index.js",
+    "description": "我的第一个工具包",
+    "keywords": ["tool", "study", "js"]
+    "license": "ISC"
+}
+```
+
+
+
+
+
+
+
+
+
+---
+
+
+
+# 第三方模块
+
+搜包：[全球最大的包共享平台](https://www.npmjs.com/) 
+
+下包：在cmd中执行：`npm install 包的完整名字`或者`npm i 包的完整名字`即可下载安装相应的包
+
+卸载包：在cmd中执行：`npm uninstall 包的完整名字` 
+
+查看当前的下包镜像源：`npm config get registry` 
+
+切换下包镜像源：`npm config set registry=https://registry.npm.taobao.org/` 
+
+
+
+初次装包完成后，在项目文件夹下多一个叫做`node_modules` 的文件夹和`package-lock.json`的配置文件。
+
+`node modules` 文件夹：用来存放所有已安装到项目中的包。require()导入第三方包时，就是从这个目录中查找并加载包。
+
+`package-lock.json`配置文件：用来记录node_modules目录下的每一个包的下载信息，例如包的名字、版本号、下载地址等。
+
+
+
+
+
+
+
+
+
+---
+
+
+
+# Express
+
+Express是基于Node.js 平台，快速、开放、极简的Web开发框架。
+
+Express 的作用和Node.js内置的http模块类似，是专门用来创建Web服务器的。
+
+Express本质就是一个npm上的第三方包，提供了快速创建Web 服务器的便捷方法。
+
+[Express中文官网](https://www.expressjs.com.cn/) 
+
+## 安装
+
+```powershell
+npm install express
+```
 
 
 
