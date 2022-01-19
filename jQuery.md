@@ -9,7 +9,19 @@ jQuery是一个js库，就是为了快速方便的操作DOM，里面基本都是
 1. 去[官方网站](https://jquery.com)将jQuery代码复制保存为js文件
 2. 在html中引入js文件 
 
-页面DOM加载完毕再去执行js代码，相当于原生js的DOMContentLoaded事件
+当然也可以直接引用[在线版本的jQuer](https://staticfile.org/) 
+
+```html
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+```
+
+
+
+
+
+## 页面DOM加载完毕再去执行js代码
+
+相当于原生js的DOMContentLoaded事件
 
 ```javascript
 $(function(){
@@ -130,8 +142,6 @@ $("选择器")
 | $.offset(包含left或top的对象)         | 设置偏移                                              |
 | $.position()                          | 返回相对于带有定位的父级的偏移坐标对象，包括left和top |
 | $.scrollTop() / scrollLeft()          | 设置或获取元素被卷去的头部和左侧                      |
-|                                       |                                                       |
-|                                       |                                                       |
 
 
 
@@ -292,4 +302,7 @@ $().trigger("事件")
 // 3.不会触发元素的默认行为
 $().triggerHandler("事件")
 ```
+
+
+
 
