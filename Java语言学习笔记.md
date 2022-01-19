@@ -2089,9 +2089,11 @@ Map<Apple,String> apples = new TreeMap<>(( o1, o2) -> Double.compare(o1.price, o
 
 
 
-### try...catch捕获异常
+### try...catch...finally捕获异常
 
 监视捕获异常，用在方法内部，可以将方法内部出现的异常直接捕获处理
+
+* `finally`可加可不加，里面的代码一定会执行(即使上面有return语句)，除非JVM退出。一般用来执行所有清除操作，比如[IO流](#IO流)中的释放资源
 
 ```java
 // 1.格式
@@ -2109,6 +2111,8 @@ try {
     ...
 }catch (Exception e) {// 捕获所有可能的异常
     e.printStackTrace();// 打印异常栈信息
+}finally{
+    ...
 }
 ```
 
@@ -2272,6 +2276,194 @@ Object[] arr2 = s3.toArray(); // 收集成数组，注意返回类型为Object[]
 System.out.println(Arrays.toString(arr2));
 
 ```
+
+
+
+
+
+
+
+
+
+---
+
+
+
+# 文件操作
+
+## File类
+
+File类提供了定位文件，获取文件本身的信息、删除文件、创建文件（文件夹）等功能
+
+### 创建对象
+
+```java
+File f = new FIle("文件/文件夹路径");// 支持绝对路径和相对路径(以工程目录开始)
+```
+
+
+
+### 常用方法
+
+| 方法                | 返回值   | 说明                                   |
+| ------------------- | -------- | -------------------------------------- |
+| f.length()          | long     | 文件的字节大小                         |
+| f.exists()          | boolean  | 判断路径是否存在                       |
+| f.isDirectory()     | boolean  | 判断是否是文件夹                       |
+| f.isFile()          | boolean  | 判断是否是文件                         |
+| f.getAbsolutePath() | String   | 获取绝对路径                           |
+| f.getPath()         | String   | 返回该对象定义时的路径                 |
+| f.getName()         | String   | 获取文件或文件夹名                     |
+| f.lastModified()    | long     | 返回文件最后修改的时间戳               |
+| f.createNewFile()   | boolean  | 创建一个空的文件                       |
+| f.mkdir()           | boolean  | 创建一级文件夹                         |
+| f.mkdirs()          | boolean  | 创建多级文件夹                         |
+| f.delete()          | boolean  | 删除文件或空文件夹，不走回收站         |
+| f.list()            | String[] | 获取当前目录下所有的一级文件名称到数组 |
+| f.listFiles()       | File[]   | 获取当前目录下所有的一级文件对象到数组 |
+
+
+
+
+
+## IO流
+
+用来读写数据
+
+按流的数据最小单位分为：字节流，字符流
+
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220120004912947.png" alt="image-20220120004912947" style="zoom:67%;" />
+
+
+
+### FileInputStream
+
+文件字节输入流，以字节为单位读取文件信息
+
+```java
+FileInputStream fis = new FileInputStream(String path);// 创建对象
+```
+
+| 方法                    | 返回值 | 说明                                                     |
+| ----------------------- | ------ | -------------------------------------------------------- |
+| fis.read()              | int    | 每次读一个字节返回，没有可读时返回-1                     |
+| fis.read(byte[] buffer) | int    | 每次读一个字节数组，返回读取的字节个数，没有可读时返回-1 |
+| fis.readAllBytes()      | byte[] | 一次性读取全部字节，返回一个byte数组                     |
+| fis.close               | void   | 关闭流                                                   |
+
+
+
+### FileOutputStream
+
+文件字节输出流，以字节为单位写文件信息
+
+```java
+FileOutputStream fos = new FileOutputStream(String path, boolean append);// 创建对象，可以选择是否是追加写入
+fos.write("\r\n".getBytes());// 写入换行
+fos.close()// 一定要记得关闭
+```
+
+| 方法                                       | 返回值 | 说明                                             |
+| ------------------------------------------ | ------ | ------------------------------------------------ |
+| fos.write(int a)                           | void   | 写一个字节进去                                   |
+| fos.write(byte[] buffer)                   | void   | 写一个字节数组进去                               |
+| fos.write(byte[] buffer, int pos, int len) | void   | 写一个字节数组的一部分进去，pos起始位置，len长度 |
+| fos.flush()                                | void   | 刷新流。还可以继续写数据                         |
+| fos.close()                                | void   | 关闭流。一单关闭就不能再写数据                   |
+
+
+
+### FileReader
+
+文件字符输入流，以字符为单位读取文件
+
+```java
+FileReader fr = new FileReader(String path);// 创建对象
+```
+
+| 方法                   | 返回值 | 说明                                                     |
+| ---------------------- | ------ | -------------------------------------------------------- |
+| fr.read()              | int    | 每次读取一个字符，没有可读返回-1                         |
+| fr.read(char[] buffer) | int    | 每次读取一个字符数组，返回读取的字符个数，没有可读返回-1 |
+| fr.close()             | void   | 关闭流                                                   |
+
+
+
+### FileWriter
+
+文件字符输出流，以字符为单位写文件信息
+
+```java
+FileWriter fw = new FileWriter(String path, boolean append);// 创建对象，可以选择是否是追加写入
+```
+
+| 方法                                      | 返回值 | 说明                 |
+| ----------------------------------------- | ------ | -------------------- |
+| fw.write(int c)                           | void   | 写入一个字符         |
+| fw.write(char[] buffer)                   | void   | 写入一个字符数组     |
+| fw.write(char[] buffer, int pos, int len) | void   | 写入字符数组的一部分 |
+| fw.write(String s)                        | void   | 写入一个字符串       |
+| fw.write(String s, int pos, int len)      | void   | 写入字符串的一部分   |
+| fw.flush()                                | void   | 刷新流               |
+| fw.close()                                | void   | 关闭流               |
+
+
+
+### 资源释放
+
+当代码出现异常时，`.close()`函数可能会被跳过不执行，导致资源没有被释放。以下是解决这个问题的方案
+
+#### try(资源对象)...catch...
+
+资源对象是实现了`Closeable`或`AutoCloseable`接口的类的对象，代码执行完或出现异常会自动释放资源
+
+```java
+try(资源对象逗号分割){
+    可能出现异常的代码
+}catch(异常类名 变量名){
+    异常处理代码
+}
+```
+
+
+
+#### try(输入流对象;输出流对象)...catch...
+
+JDK9的改进方案（不建议）
+
+```java
+定义输入流对象;
+定义输出流对象;
+try(输入流对象;输出流对象){
+    可能出现异常的代码;
+}catch(异常类名 变量名){
+    异常处理代码
+}
+```
+
+
+
+
+
+## 缓冲流
+
+
+
+
+
+## 转换流
+
+
+
+
+
+## 序列化
+
+
+
+
+
+## 打印流
 
 
 
@@ -2864,6 +3056,97 @@ JDK8 新增​日期类。在Date, SimpleDateFormat, Calendar这几个经典的�
 
 
 ---
+
+
+
+# 日志框架
+
+程序中的日志可以用来记录程序运行过程中的信息，并可以进行永久存储
+
+日志技术优势：
+
+* 可以将系统执行的信息选择性的记录到指定的位置（控制台、文件中、数据库中)
+* 可以随时以开关的形式控制是否记录日志，无需修改源代码。
+
+## 日志技术体系 
+
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220119005543986.png" alt="image-20220119005543986" style="zoom: 67%;" />
+
+
+
+
+
+## Logback
+
+Logback是由log4j创始人设计的另一个开源日志组件，性能比log4j要好
+
+[Logback官方网站](https://logback.qos.ch/index.html) 
+
+* 基于slf4j的规范实现
+* Logback分为三个技术模块：`logback-core`, `logback-classic`, `logback-access` 
+* `logback-core`：其他两个模块的核心，必有
+* `logback-classic`：是log4j的改良版本
+* `logback-access`：与`Tomcat`和`Jetty`等Servlet容器集成，以提供HTTP访问日志功能
+
+### 安装使用步骤
+
+[在此下载jar包](https://mvnrepository.com/) 
+
+1. 在项目包下新建文件夹`lib`，导入Logback的相关jar包(`slf4j-api`, `logback-core`, `logback-classic`)到该文件夹下
+2. 在idea中，全部选中右击，添加到项目依赖库中去。
+3. 将Logback的核心配置文件`logback.xml`直接拷贝到`src`目录下
+4. 在代码中获取日志的对象 `public static logger LOGGER = LoggerFactory.getLogger("类对象");` 
+
+```java
+public class Test {
+	public static final Logger LOGGER = LoggerFactory.getLogger("Test.class");
+
+	public static void main(String[] args) {
+		try {
+			LOGGER.debug("main方法开始");
+			LOGGER.info("第二行日志");
+			int a = 10;
+			int b = 0;
+			LOGGER.trace("a = " + a);
+			LOGGER.trace("b = " + b);
+			System.out.println(a / b);
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOGGER.error("功能出现异常，" + e);
+		}
+	}
+}
+```
+
+
+
+### 日志级别
+
+作用：用于控制系统中哪些日志级别是可以输出的，只输出级别不低于设定级别的日志信息。
+
+级别程度依次是：`TRACE` < `DEBUG` < `INFO` < `WARN` < `ERROR`，默认级别是`debug`，`ALL`和`OFF`分别是打开全部日志信息，及关闭全部日志信息
+
+```xml
+<root level="INFO">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="FILE"/>
+</root>
+```
+
+
+
+
+
+
+
+
+
+---
+
+
+
+# IO框架
+
 
 
 
