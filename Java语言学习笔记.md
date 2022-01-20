@@ -2051,6 +2051,31 @@ Map<Apple,String> apples = new TreeMap<>(( o1, o2) -> Double.compare(o1.price, o
 
 
 
+## Properties
+
+Properties代表的是一个属性文件，可以把自己对象中的键值对信息存入到一个属性文件中去
+
+* 属性文件：后缀是`.properties`结尾的文件,里面的内容都是key=value，后续做系统配置信息的
+
+```java
+Properties properties = new Properties(); // 创建对象
+
+properties.setProperty("name", "ged"); // 添加键值对信息
+properties.setProperty("age", "20");
+properties.setProperty("gender", "男");
+
+properties.store(new FileWriter("./module3/src/users.properties"),"注释"); // 保存为文件
+
+Properties properties2 = new Properties();
+properties2.load(new FileReader("./module3/src/users.properties")); // 读取文件中的键值对信息到对象中
+
+String username = properties2.getProperty("name"); // 取值
+```
+
+
+
+
+
 
 
 
@@ -2332,7 +2357,7 @@ File f = new FIle("文件/文件夹路径");// 支持绝对路径和相对路径
 
 按流的数据最小单位分为：字节流，字符流
 
-<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220120004912947.png" alt="image-20220120004912947" style="zoom:67%;" />
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220120222018587.png" alt="image-20220120222018587" style="zoom:67%;" />
 
 
 
@@ -2344,12 +2369,12 @@ File f = new FIle("文件/文件夹路径");// 支持绝对路径和相对路径
 FileInputStream fis = new FileInputStream(String path);// 创建对象
 ```
 
-| 方法                    | 返回值 | 说明                                                     |
-| ----------------------- | ------ | -------------------------------------------------------- |
-| fis.read()              | int    | 每次读一个字节返回，没有可读时返回-1                     |
-| fis.read(byte[] buffer) | int    | 每次读一个字节数组，返回读取的字节个数，没有可读时返回-1 |
-| fis.readAllBytes()      | byte[] | 一次性读取全部字节，返回一个byte数组                     |
-| fis.close               | void   | 关闭流                                                   |
+| 方法                    | 返回值 | 说明                                                       |
+| ----------------------- | ------ | ---------------------------------------------------------- |
+| fis.read()              | int    | 每次读一个字节返回，没有可读时返回`-1`                     |
+| fis.read(byte[] buffer) | int    | 每次读一个字节数组，返回读取的字节个数，没有可读时返回`-1` |
+| fis.readAllBytes()      | byte[] | 一次性读取全部字节，返回一个byte数组                       |
+| fis.close               | void   | 关闭流                                                     |
 
 
 
@@ -2381,11 +2406,11 @@ fos.close()// 一定要记得关闭
 FileReader fr = new FileReader(String path);// 创建对象
 ```
 
-| 方法                   | 返回值 | 说明                                                     |
-| ---------------------- | ------ | -------------------------------------------------------- |
-| fr.read()              | int    | 每次读取一个字符，没有可读返回-1                         |
-| fr.read(char[] buffer) | int    | 每次读取一个字符数组，返回读取的字符个数，没有可读返回-1 |
-| fr.close()             | void   | 关闭流                                                   |
+| 方法                   | 返回值 | 说明                                                       |
+| ---------------------- | ------ | ---------------------------------------------------------- |
+| fr.read()              | int    | 每次读取一个字符，没有可读返回`-1`                         |
+| fr.read(char[] buffer) | int    | 每次读取一个字符数组，返回读取的字符个数，没有可读返回`-1` |
+| fr.close()             | void   | 关闭流                                                     |
 
 
 
@@ -2447,11 +2472,97 @@ try(输入流对象;输出流对象){
 
 ## 缓冲流
 
+缓冲流自带缓冲区、可以提高原始字节流、字符流读写数据的性能
+
+![image-20220120203331105](D:\笔记\学习笔记\image\image-20220120203331105.png)
+
+### BufferedInputStream
+
+字节缓冲输入流
+
+```java
+FileInputStream fis = new FileInputStream(String path);
+BufferedInputStream bis = new BufferedInputStream(fis); // 用文件字节输入流来包装
+```
+
+使用和IO流一致
+
+
+
+### BufferedOutputStream
+
+字节缓冲输出流
+
+```java
+FileOutputStream fos = new FileOutputStream(String path);
+BufferedOutputStream bos = new BufferedOutputStream(fos); // 用文件字节输出流来包装
+```
+
+使用和IO流一致
+
+
+
+### BufferedReader
+
+字符缓冲输入流
+
+```java
+FileReader fr = new FileReader(String path);
+BufferedReader br = new BufferedReader(fr); // 用文件字符输入流来包装
+```
+
+使用和IO流一致
+
+| 方法          | 返回值 | 说明                           |
+| ------------- | ------ | ------------------------------ |
+| br.readLine() | String | 读一行数据，无行可读返回`null` |
+
+
+
+### BufferedWriter
+
+字符缓冲输出流
+
+```java
+FileWriter fw = new FileWriter(String path);
+BufferedWriter bw = new BufferedWriter(fw); // 用文件字符输出流来包装
+```
+
+使用和IO流一致
+
+| 方法         | 返回值 | 说明     |
+| ------------ | ------ | -------- |
+| bw.newLine() | void   | 换行操作 |
+
 
 
 
 
 ## 转换流
+
+字符流直接读取文本内容必须文件和代码编码一致才不会乱码，转换流可以把原始的字节流按照指定编码转换成字符输入输出流。
+
+### InputStreamReader
+
+字符输入转换流，可以解决字符流读取不同编码乱码的问题
+
+```java
+InputStreamReader isr = new InputStreamReader(new FileInputStream(String path), String charsetName);
+
+BufferedReader br = new BufferedReader(isr); // 还可以用缓冲流进行包装
+```
+
+
+
+### OutputStreamWriter
+
+字符输出转换流，可以设置输出编码
+
+```java
+OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(String path), String charsetName);
+
+BufferedWriter bw = new BufferedWriter(osw); // 还可以用缓冲流进行包装
+```
 
 
 
@@ -2459,11 +2570,92 @@ try(输入流对象;输出流对象){
 
 ## 序列化
 
+把内存中的对象存储到磁盘文件中去，称为对象序列化。
+
+### ObjectOutputStream
+
+对象字节输出流，将对象写入文件（序列化）
+
+* 需要写入文件的对象必须实现`Serializable`接口
+
+```java
+Student s1 = new Student("ged","男",20,"GedRelay","123456"); // Student类必须实现Serializable接口
+
+ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./module3/src/obj.txt")); // 把低级字节输出流包装成高级的对象字节输出流
+		
+oos.writeObject(s1); // 将对象写入文件
+		
+oos.close();
+```
+
+
+
+### ObjectInputStream
+
+对象字节输入流，将对象从文件中读入内存（反序列化）
+
+```java
+ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./module3/src/obj.txt"));
+
+Student s2 = (Student) ois.readObject();
+
+System.out.println(s2);
+
+ois.close();
+```
+
+
+
+### transient修饰符
+
+被`transient`修饰的变量不参与序列化，可以防止敏感数据暴露
+
+```java
+public class Student implements Serializable {
+	private String name;
+	private String gender;
+	private int age;
+	private String loginName;
+	private transient String passWord; // 被transient修饰，不会被写入文件，读入时默认为null
+    ...
+}
+```
+
 
 
 
 
 ## 打印流
+
+打印流可以实现方便、高效的打印数据到文件中去
+
+* 打印流可以打印任何类型的数据
+
+### PrintStream
+
+继承于字节输出流OutputStream，支持写字节数据的方法
+
+```java
+PrintStream ps = new PrintStream(String path, [String charsetName]); // 创建对象
+PrintStream ps2 = new PrintStream(new FileOutputStream(String path, true)); // 追加写入
+ps.println(内容); // 自动换行
+ps.print(内容); // 不自动换行
+ps.close();
+```
+
+
+
+### PrintWriter
+
+继承于字符输出流Writer，支持写字符数据出去
+
+```java
+PrintWriter pw = new PrintWriter(String path, [String charsetName]); // 创建对象
+PrintWriter pw2 = new PrintWriter(new FileOutputStream(String path, true)); // 追加写入
+pw.println(内容); // 自动换行
+pw.print(内容); // 不自动换行
+pw.close();
+```
 
 
 
@@ -3093,7 +3285,7 @@ Logback是由log4j创始人设计的另一个开源日志组件，性能比log4j
 [在此下载jar包](https://mvnrepository.com/) 
 
 1. 在项目包下新建文件夹`lib`，导入Logback的相关jar包(`slf4j-api`, `logback-core`, `logback-classic`)到该文件夹下
-2. 在idea中，全部选中右击，添加到项目依赖库中去。
+2. 在idea中，全部选中右击，添加到项目依赖库中去
 3. 将Logback的核心配置文件`logback.xml`直接拷贝到`src`目录下
 4. 在代码中获取日志的对象 `public static logger LOGGER = LoggerFactory.getLogger("类对象");` 
 
@@ -3147,7 +3339,32 @@ public class Test {
 
 # IO框架
 
+## commons-io
+
+commons-io是apache开源基金组织提供的一组有关IO操作的类库，可以提高IO功能开发的效率。有两个主要的类FileUtils和IoUtils
+
+[官网](https://commons.apache.org/proper/commons-io/download_io.cgi) 
+
+### 安装
+
+1. 在包下创建`lib`文件夹
+2. 将`commons-io-2.6.jar`文件复制到`lib`文件夹
+3. 在idea中，选中jar文件右击，添加到项目依赖库中去
+4. 在类中导包使用
+
+```java
+IOUtils.copy(new FileInputStream(String path), new FileOutputStream(String path)); // 复制文件
+FileUtils.copyFileToDirectory(new File(String path), new File(String path)); // 文件复制到文件夹
+FileUtils.copyDirectoryToDirectory(new File(String path), new File(String path)); // 文件夹复制到文件夹下
+```
 
 
 
+
+
+
+
+
+
+---
 
