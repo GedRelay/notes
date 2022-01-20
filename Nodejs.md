@@ -380,24 +380,6 @@ package.json文件内容示例,使用npm init -y可以自动生成
 
 `package-lock.json`配置文件：用来记录node_modules目录下的每一个包的下载信息，例如包的名字、版本号、下载地址等。
 
-## nodemon
-
-可以将node命令替换为nodemon命令，使用nodemon xxx.js 来启动项目。这样做的好处是：代码被修改之后，会被nodemon监听到，从而实现自动重启项目的效果。
-
-### 安装
-
-```js
-npm install -g nodemon
-```
-
-
-
-### 使用
-
-```js
-nodemon js文件
-```
-
 
 
 
@@ -781,6 +763,301 @@ res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Custom-Header");
 res.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, HEAD");
 res.setHeader("Access-Control-Allow-Methods", "*");
 ```
+
+
+
+
+
+## express-session
+
+在Express项目中，只需要安装express-session中间件，即可在项目中使用Session认证
+
+### 安装中间件
+
+```powershell
+npm install express-session
+```
+
+
+
+### 使用
+
+当express-session中间件配置成功后，即可通过`req.session`来访问和使用session对象，从而存储用户的关键信息
+
+```js
+var session = require("express-session");
+
+//配置 Session 中间件
+app.use(session({
+    secret: "keyboard cat", // secret 属性的值可以为任意字符串
+    resave: false,          // 固定写法
+    saveUninitialized: true // 固定写法
+}));
+
+req.session.user = "xxx"; // 可以通过添加自定义属性存储数据
+
+req.session.destroy(); // 清空session信息，比如在调用退出登录接口时使用
+```
+
+
+
+
+
+## JWT
+
+JWT (英文全称:JSON Web Token)是目前最流行的跨域认证解决方案。
+
+* 当前端请求后端接口不存在跨域问题的时候，推荐使用Session身份认证机制。
+* 当前端需要跨域请求后端接口的时候，推荐使用JWT认证机制。
+
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220120182216863.png" alt="image-20220120182216863" style="zoom:80%;" />
+
+JWT的组成：头部（header），Payload（有效荷载），Signature（签名），三者用`.`分隔
+
+* Payload部分才是真正的用户信息，它是用户信息经过加密之后生成的字符串
+* Header和Signature是安全性相关的部分，只是为了保证Token 的安全性
+
+### 安装
+
+* jsonwebtoken用于生成JWT字符串
+* express-jwt用于将JWT字符串解析还原成JSON对象
+
+```powershell
+npm install jsonwebtoken express-jwt
+```
+
+
+
+### 使用
+
+```js
+const jwt = require("jsonwebtoken");
+const expressJWT = require("express-jwt");
+
+
+secretKey = "Ged"; // 定义秘钥，用于加密和解密
+
+// 注册中间件，用来解析加密的JWT，.unless是设定哪些接口不需要访问权限
+app.use(expressJWT({secret: secretKey}).unless({path: [/^\/api\//]}));
+
+app.post("/api/login", (req, res) => {
+    // ... 省略登录失败的代码
+    res.send({
+        status: 200,
+        msg: "登录成功",
+        // 参数：用户对象的信息，加密的秘钥，配置对象：可以配置token的有效期
+        token: jwt.sign({ username: req.body.username }, secretKey, { eexpiresIn: "30s" })
+    });
+});
+
+// 之后可以使用req.user访问被解密的信息
+
+// 错误中间件来捕获JWT解析失败的错误
+app.use((err, req, res, next) => {
+    if (err.name === "UnauthorizedError") {
+        res.send({ status: 401, message: "无效的token" });
+        return;
+    }
+    res.send({ status: 500, message: "未知错误" });
+});
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+
+
+# nodemon
+
+可以将node命令替换为nodemon命令，使用nodemon xxx.js 来启动项目。这样做的好处是：代码被修改之后，会被nodemon监听到，从而实现自动重启项目的效果。
+
+## 安装
+
+```js
+npm install -g nodemon
+```
+
+
+
+## 使用
+
+```js
+nodemon js文件
+```
+
+
+
+
+
+
+
+
+
+---
+
+
+
+# mysql
+
+mysql模块是托管于npm 上的第三方模块。它提供了在Node.js项目中连接和操作MySQL数据库的能力
+
+## 安装
+
+```powershell
+npm install mysql
+```
+
+
+
+## 连接数据库
+
+```js
+const mysql = require("mysql");
+
+const db = mysql.createPool({
+    host: "127.0.0.1",  // 数据库的IP地址
+    port: "3306",       // 端口号
+    user: "root",       // 登录数据库的账号
+    password: "密码",    // 登录数据库的密码
+    database: "test"    // 指定要操作哪个数据库
+});
+
+// 测试 mysql 是否连接正常
+db.query("select 1", (err, results) => {
+    if (err){
+        console.log(err.message);
+    }
+    else{
+        console.log(results);
+    }
+}); // 打印结果为 [ RowDataPacket { '1': 1 } ] 即表示连接成功
+```
+
+连接报错解决方案：
+
+```
+报错：
+ER_NOT_SUPPORTED_AUTH_MODE: Client does not support authentication protocol requested by server; consider upgrading MySQL client
+原因：
+MySQL8.0版本的加密方式和MySQL5.0的不一样，连接会报错。
+解决方法如下：
+
+通过命令行进入解压的mysql根目录下。
+登陆数据库
+mysql -uroot -p
+输入root的密码
+Enter password: ******
+更改加密方式
+alter user 'root'@'localhost' identified with mysql_native_password by '密码';
+刷新：
+FLUSH PRIVILEGES;
+```
+
+
+
+
+
+## 查询数据
+
+```js
+db.query("select * from course", (err, results) => {
+    if(err){
+        console.log(err.message);// 错误信息
+        return;
+    }
+    console.log(results);// 查询结果，是一个列表
+});
+```
+
+
+
+
+
+## 插入数据
+
+```js
+const c1 = { Cno: "9", Cname: "English", Cpno: null, Ccredit: "5" } // 创建数据对象
+// ?是占位符，防止注入
+db.query("insert into course (Cno, Cname, Cpno, Ccredit) values (?, ?, ?, ?)", [c1.Cno, c1.Cname, c1.Cpno, c1.Ccredit], (err, results) => {
+    if (err) {
+        console.log("插入失败：" + err.message);
+        return;
+    }
+    if (results.affectedRows === 1) {
+        console.log("插入成功");
+    }
+});
+
+// 简便写法，前提是数据对象的每个属性与数据表字段一一对应
+db.query("insert into course set ?", c1, (err, results) => {
+    if (err) {
+        console.log("插入失败：" + err.message);
+        return;
+    }
+    if (results.affectedRows === 1) {
+        console.log("插入成功");
+    }
+})
+```
+
+
+
+
+
+## 更新数据
+
+```js
+db.query("update course set Ccredit = ? where Cno = ?", ["4", "9"], (err, results) => {
+    if (err) {
+        console.log("更新失败：" + err.message);
+        return;
+    }
+    if (results.affectedRows === 1) {
+        console.log("更新成功");
+    }
+});
+```
+
+
+
+
+
+## 删除数据
+
+```js
+db.query("delete from course where Cno = ?", ["9"], (err, results) => {
+    if (err) {
+        console.log("删除失败：" + err.message);
+        return;
+    }
+    if (results.affectedRows === 1) {
+        console.log("删除成功");
+    }
+})
+```
+
+
+
+
+
+
 
 
 
