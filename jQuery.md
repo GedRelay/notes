@@ -4,6 +4,8 @@ jQuery是一个js库，就是为了快速方便的操作DOM，里面基本都是
 
 * jQuery支持链式编程哦！！！！！
 
+[API中文文档](https://jquery.cuishifeng.cn/) 
+
 ## 安装和引用
 
 1. 去[官方网站](https://jquery.com)将jQuery代码复制保存为js文件
@@ -305,4 +307,11 @@ $().triggerHandler("事件")
 
 
 
+
+
+
+
+
+
+---
 
