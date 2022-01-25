@@ -2915,7 +2915,7 @@ try(输入流对象;输出流对象){
 
 缓冲流自带缓冲区、可以提高原始字节流、字符流读写数据的性能
 
-![image-20220120203331105](D:\笔记\学习笔记\image\image-20220120203331105.png)
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220126030546569.png" alt="image-20220126030546569" style="zoom:80%;" />
 
 ### BufferedInputStream
 
