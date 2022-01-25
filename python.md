@@ -435,7 +435,7 @@ print(s[1:3]) # 'bc'
 
 python支持下标为负数，即表示倒数第几个，负下标从`-1`开始，同样注意下标越界的问题
 
-![image-20220114002457878](D:\笔记\学习笔记\image\image-20220114002457878.png)
+![image-20220114002457878](https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220114002457878.png)
 
 ```python
 list1 = [0,1,2,3,4,5,6,7,8,9]
