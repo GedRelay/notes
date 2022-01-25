@@ -382,9 +382,9 @@ background-color: #fff;
 
 文字垂直居中：让行高等于容器的高度也可
 
-<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20211126221101303.png" alt="image-20211126221101303" style="zoom: 67%;" /> 
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20211126221101303.png" alt="image-20211126221101303" style="zoom: 50%;" /> 
 
-![image-20211204115413251](https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20211204115413251.png)
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20211204115413251.png" alt="image-20211204115413251" style="zoom: 67%;" />
 
 
 
@@ -610,7 +610,7 @@ border：边框
 
 padding：内边框
 
-![image-20211127135729758](https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20211127135729758.png) 
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20211127135729758.png" alt="image-20211127135729758" style="zoom:80%;" /> 
 
 | 样式       | 样式值                        | 说明     |
 | ---------- | ----------------------------- | -------- |
@@ -825,7 +825,7 @@ div:hover{
 * 花费时间：单位为秒,且必须写单位，如`0.5s` 
 * 运动曲线：默认是`ease` （可省略）
 
-![image-20211204181804116](https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20211204181804116.png) 
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20211204181804116.png" alt="image-20211204181804116"  /> 
 
 * 何时开始：延迟触发时间，单位是秒且必须写单位，默认是`0s` （可省略）
 
@@ -924,7 +924,7 @@ transform: translate() rotate() scale();
 * 透视的单位是像素
 * **透视写在被观察元素的父盒子上面** 
 
-![image-20220110214133759](https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220110214133759.png)
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220110214133759.png" alt="image-20220110214133759" style="zoom: 67%;" />
 
 
 
@@ -1035,7 +1035,7 @@ transform: translate() rotate() scale();
 
 iOS,Android基本都将这个视口分辨率设置为980px，所以PC上的网页大多都能在手机上呈现，只不过元素看上去很小，一般默认可以通过手动缩放网页。
 
-![image-20220112132810221](D:\笔记\学习笔记\image\image-20220112132810221.png)
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220112132810221.png" alt="image-20220112132810221" style="zoom:50%;" />
 
 
 
@@ -1045,7 +1045,7 @@ iOS,Android基本都将这个视口分辨率设置为980px，所以PC上的网�
 
 我们可以通过缩放去操作视觉视口，但不会影响布局视口，布局视口仍保持原来的宽度。
 
-![image-20220112133016371](D:\笔记\学习笔记\image\image-20220112133016371.png)
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220112133016371.png" alt="image-20220112133016371" style="zoom:50%;" />
 
 ### 理想视口
 
@@ -1235,7 +1235,7 @@ display:flex;
 * 默认主轴方向就是x轴方向，水平向右
 * 默认侧轴方向就是y轴方向，水平向下
 
-![image-20220112151335119](https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220112151335119.png)
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220112151335119.png" alt="image-20220112151335119" style="zoom: 67%;" />
 
 可以通过`flex-direction`样式改变主轴的方向，剩下的就是侧轴
 
@@ -1609,7 +1609,7 @@ Bootstrap的`container`容器已经平均划分为了12等份，所以只需要�
 
 ### 效果：
 
-![image-20211204114010167](https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20211204114010167.png)
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20211204114010167.png" alt="image-20211204114010167" style="zoom:80%;" />
 
 ### 代码：
 
@@ -1629,7 +1629,7 @@ Bootstrap的`container`容器已经平均划分为了12等份，所以只需要�
 
 ### 效果：
 
-![image-20211204123042742](https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20211204123042742.png)
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20211204123042742.png" alt="image-20211204123042742" style="zoom: 50%;" />
 
 ### 代码：
 
@@ -1649,7 +1649,7 @@ Bootstrap的`container`容器已经平均划分为了12等份，所以只需要�
 
 ### 效果：
 
-![image-20220109204948349](https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220109204948349.png)
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220109204948349.png" alt="image-20220109204948349" style="zoom: 200%;" />
 
 ### 代码：
 
