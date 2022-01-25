@@ -2205,6 +2205,447 @@ public static void checkAge(int age) {
 
 
 
+# 反射
+
+反射是指对于任何一个Class类，在"运行的时候"都可以直接得到这个类全部成分
+
+* 在运行时，可以直接得到这个类的构造器对象：Constructor
+* 在运行时，可以直接得到这个类的成员变量对象：Field
+* 在运行时，可以直接得到这个类的成员方法对象：Method
+
+这种运行时动态获取类信息以及动态调用类中成分的能力称为Java语言的反射机制
+
+## 获取Class类的对象
+
+有三种方式：
+
+1. Class类中的静态方法`Class.forName(类的全限名)` 
+2. `类名.class`属性
+3. `对象.getClass()`方法
+
+```java
+public class Test {
+	public static void main(String[] args) throws ClassNotFoundException {
+		// 1. Class类中的静态方法Class.forName(类的全限名)
+		Class c1 = Class.forName("package2.Student");
+        
+		// 2. 类名.class属性
+		Class c2 = Student.class;
+        
+		// 3. 对象.getClass()方法
+		Student s = new Student();
+		Class c3 = s.getClass();
+	}
+}
+```
+
+
+
+
+
+## 获取构造器对象
+
+| 方法                                                   | 返回值            | 说明                                       |
+| ------------------------------------------------------ | ----------------- | ------------------------------------------ |
+| cls.getConstructors()                                  | Constructor\<T>[] | 返回所有构造器对象的数组（只能拿public的） |
+| cls.getDeclaredConstructors()                          | Constructor\<T>[] | 返回所有构造器对象的数组，存在就能拿到     |
+| cls.getConstructor(Class<?>... parameterTypes)         | Constructor\<T>   | 返回单个构造器对象（只能拿public的）       |
+| cls.getDeclaredConstructor(Class<?>... parameterTypes) | Constructor\<T>   | 返回单个构造器对象，存在就能拿到           |
+
+### Constructor
+
+| 方法                                 | 返回值 | 说明                       |
+| ------------------------------------ | ------ | -------------------------- |
+| cons.newInstance(Object... initargs) | T      | 根据构造器创建对象         |
+| cons.setAccessible(true)             | void   | 取消访问检查，进行暴力反射 |
+| cons.getName()                       | String | 获取构造器的名字           |
+| cons.getParameterCount()             | int    | 获取构造器参数的数量       |
+
+示例：
+
+```java
+public class Student {
+	private String name;
+	private int age;
+	private Student() { // 私有无参构造器
+	}
+	public Student(String name, int age) { // 公共有参构造器
+		this.name = name;
+		this.age = age;
+	}
+    // 以下省略
+    ...
+}
+
+public class Test {
+	public static void main(String[] args) throws Exception {
+		Class cls = Student.class;
+		Constructor cons1 = cls.getDeclaredConstructor();// 无参构造器
+		Constructor cons2 = cls.getDeclaredConstructor(String.class, int.class); //有参构造器
+		// 使用构造器创建对象
+		// 如果遇到了私有的构造器，可以暴力反射
+		cons1.setAccessible(true);// 将权限暂时打开
+		Student s1 = (Student)cons1.newInstance();
+		System.out.println(s1);
+		// 公有构造器，可以直接创建
+		Student s2 = (Student)cons2.newInstance("ged",20);
+		System.out.println(s2);
+	}
+}
+```
+
+
+
+
+
+## 获取成员变量对象
+
+| 方法                              | 返回值  | 说明                                   |
+| --------------------------------- | ------- | -------------------------------------- |
+| cls.getFields()                   | Field[] | 返回所有成员变量对象（只能拿public的） |
+| cls.getDeclaredFields()           | Field[] | 返回所有成员变量对象，存在就能拿到     |
+| cls.getField(String name)         | Field   | 返回单个成员变量对象（只能拿public的） |
+| cls.getDeclaredField(String name) | Field   | 返回单个成员变量对象，存在就能拿到     |
+
+### Field
+
+| 方法                            | 返回值 | 说明                                       |
+| ------------------------------- | ------ | ------------------------------------------ |
+| f.set(Object obj, Object value) | void   | 给对象注入某个成员变量数据                 |
+| f.get(Object obj)               | Object | 获取对象的成员变量的值                     |
+| f.setAccessible(true)           | void   | 暴力反射，设置为可以直接访问私有类型的属性 |
+| f.getType()                     | Class  | 获取属性的类型                             |
+| f.getName()                     | String | 获取属性的名称                             |
+
+示例：
+
+```java
+public class Student {
+	private String name; //私有成员变量
+	private int age; // 私有成员变量
+	public static String schoolName; // 静态变量
+	public static final String COUNTRY = "中国"; //常量
+    // 以下省略
+    ...
+}
+
+public class Test {
+	public static void main(String[] args) throws Exception {
+		Class cls = Student.class;
+		// 获取全部成员变量
+		Field[] fields = cls.getDeclaredFields();
+		for (Field field : fields) {
+			System.out.println(field.getName() + "-->" + field.getType());
+		}
+		// 根据名称定位某个成员变量
+		Field ageF = cls.getDeclaredField("age");
+		// 为对象的成员变量赋值
+		Student s = new Student();
+		// 暴力打开权限
+		ageF.setAccessible(true);
+		ageF.set(s,18); // s.setAge(18)
+		System.out.println(s);
+	}
+}
+```
+
+
+
+
+
+## 获取方法对象
+
+| 方法                                                         | 返回值   | 说明                                   |
+| ------------------------------------------------------------ | -------- | -------------------------------------- |
+| cls.getMethods()                                             | Method[] | 返回所有成员方法对象（只能拿public的） |
+| cls.getDeclaredMethods()                                     | Method[] | 返回所有成员方法对象，存在就能拿       |
+| cls.getMethod(String name, Class<?>... parameterTypes)       | Method   | 返回单个成员方法对象（只能拿public的） |
+| cls.getDeclaredMethod(String name, Class<?>... parameterTypes) | Method   | 返回单个成员方法对象，存在就能拿       |
+
+### Method
+
+| 方法                                 | 返回值   | 说明                                                         |
+| ------------------------------------ | -------- | ------------------------------------------------------------ |
+| m.getName()                          | String   | 获取方法的名字                                               |
+| m.getReturnType()                    | Class<?> | 获取方法的返回值类型                                         |
+| m.getParameterCount()                | int      | 返回方法的参数个数                                           |
+| m.invoke(Object obj, Object... args) | Object   | 运行方法。参数一：用obj对象调用方法，参数二：调用方法的参数，返回值：方法的返回值 |
+| m.setAccessible(true)                | void     | 取消访问检查，进行暴力反射                                   |
+
+示例：
+
+```java
+public class Student {
+    // 以下省略
+    ...
+     
+    private void say(){
+		System.out.println("我的名字是" + this.name);
+	}
+	public void say(String words){
+		System.out.println(words);
+	}
+}
+
+public class Test {
+	public static void main(String[] args) throws Exception {
+		Class cls = Student.class;
+		// 获取全部方法
+		Method[] methods = cls.getDeclaredMethods();
+		for (Method method : methods) {
+			System.out.println(method.getName() + " " + method.getReturnType() + " " + method.getParameterCount());
+		}
+		// 获取单个方法
+		Method m1 = cls.getDeclaredMethod("say"); // 无参私有的方法
+		Method m2 = cls.getDeclaredMethod("say",String.class); // 有参的公有方法
+		// 执行方法
+		Student s = new Student("Ged",20);
+		// 暴力反射
+		m1.setAccessible(true);
+		Object result1 = m1.invoke(s);// 没有返回值的方法结果是null
+		Object result2 = m2.invoke(s,"Hello");
+	}
+}
+```
+
+
+
+
+
+## 反射的作用
+
+1. 可以在运行时得到一个类的全部成分然后操作
+2. 可以破坏封装性
+3. 可以破坏泛型的约束性
+4. 更重要的用途是适合：做Java高级框架
+
+### 泛型擦除
+
+泛型只是在编译阶段可以约束集合只能操作某种数据类型，在编译成Class文件进入运行阶段的时候，其真实类型都是ArrayList了，泛型相当于被擦除了。
+
+利用反射可以为集合存入其他任意类型的元素
+
+示例：
+
+```java
+// 1.正常情况下：
+ArrayList<Integer> ls = new ArrayList<>();
+ls.add(100);
+ls.add("Hello"); // 报错
+
+// 2.利用反射强行添加其他类型数据：
+ArrayList<Integer> ls = new ArrayList<>();
+ls.add(100); // 这个add受泛型约束
+Class cls = ls.getClass();
+Method add = cls.getDeclaredMethod("add",Object.class); // 此时这个add已经不受泛型约束了
+boolean rs = (boolean) add.invoke(ls,"Hello");
+
+// 3.更加简单的操作
+ArrayList<Integer> ls = new ArrayList<>();
+ls.add(100); // 这个add受泛型约束
+ArrayList ls2 = ls; // 这样完全可以避免使用反射
+ls2.add("Hello");
+System.out.println(ls);
+```
+
+
+
+### 通用框架的底层原理
+
+例：
+
+需求：给你任意一个对象，在不清楚对象字段的情况可以，可以把对象的字段名称和对应值存储到文件中去。
+
+<img src="https://cdn.jsdelivr.net/gh/GedRelay/imgs/image-20220126010141729.png" alt="image-20220126010141729" style="zoom:67%;" />
+
+```java
+public class MybatisUtil {
+	public static void save(Object obj) {
+		try (
+				PrintStream ps = new PrintStream(new FileOutputStream("C:\\Users\\29406\\Desktop\\obj.txt", true))
+		) {
+			Class cls = obj.getClass();
+			ps.println("=============" + cls.getSimpleName() + "=============");
+			// 获取所有成员变量
+			Field[] fields = cls.getDeclaredFields();
+			for (Field field : fields) {
+				String name = field.getName();
+				field.setAccessible(true);
+				String value = field.get(obj) + "";
+				ps.println(name + "=" + value);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+```
+
+
+
+
+
+
+
+
+
+---
+
+
+
+# 注解
+
+Java注解(Annotation）又称Java标注，是JDK5.0引入的一种注释机制
+
+Java语言中的类、构造器、方法、成员变量、参数等都可以被注解进行标注
+
+作用：对Java中类、方法、成员变量做标记，然后进行特殊处理，至于到底做何种处理由业务需求来决定
+
+## 自定义注解
+
+```java
+public @interface 注解名称{
+    public 属性类型 属性名() default 默认值;
+}
+```
+
+特殊属性：
+
+* `value`属性，如果只有一个`value`属性的情况下，使用`value`属性的时候可以省略`value`名称不写
+* 但是如果有多个属性，且多个属性没有默认值，那么`value`名称是不能省略的
+
+示例：
+
+```java
+public @interface Mybook {
+	String name();
+	String[] authors();
+	double price() default 9.9; // 默认值
+}
+
+public @interface Book {
+	String value(); // 只有一个value属性
+}
+
+@Mybook(name = "《Java》",authors = {"Ged","Dose"}) // price有默认值可以省略
+public class Test {
+	@Book("main") // @Book(value = "main")简写
+	public static void main(String[] args) {
+		
+	}
+}
+```
+
+
+
+
+
+## 元注解
+
+元注解就是注解注解的注解
+
+元注解有两个：
+
+* `@Target`：约束自定义注解只能在哪些地方使用
+* `@Retention`：申明注解的生命周期
+
+`@Target`中的常用值：
+
+```java
+ElementType.TYPE            类，接口
+ElementType.FIELD           成员变量
+ElementType.METHOD          成员方法
+ElementType.PARAMETER       方法参数
+ElementType.CONSTRUCTOR     构造器
+ElementType.LOCAL_VARIABLE  局部变量
+```
+
+`@Retention`中的常用值：
+
+```java
+RetentionPolicy.SOURCE   注解只作用在源码阶段，生成的字节码文件中不存在
+RetentionPolicy.CLASS    注解作用在源码阶段，字节码文件阶段，运行阶段不存在，为默认值
+RetentionPolicy.RUNTIME  注解作用在源码阶段，字节码文件阶段，运行阶段（开发常用)
+```
+
+示例：
+
+```java
+@Target({ElementType.METHOD,ElementType.FIELD}) // 元注解，此时MyTest注解只能用在成员方法和成员变量上
+@Retention(RetentionPolicy.RUNTIME) // 此时MyTest注解一直存在，在运行阶段也不消失
+public @interface MyTest {
+}
+```
+
+
+
+
+
+## 注解的解析
+
+注解的操作中经常需要进行解析，注解的解析就是判断是否存在注解，存在注解就解析出内容
+
+与注解解析相关的接口：
+
+* `Annotation`：注解的顶级接口，注解都是该类型的对象
+* `AnnotatedElement`：该接口定义了与注解解析相关的解析方法
+
+所有的类成分Class, Method , Field , Constructor，都实现了`AnnotatedElement`接口，他们都拥有解析注解的能力
+
+| 方法                                                       | 返回值       | 说明                                       |
+| ---------------------------------------------------------- | ------------ | ------------------------------------------ |
+| ae.getDeclaredAnnotations()                                | Annotation[] | 获得当前对象上使用的所有注解，返回注解数组 |
+| ae.getDeclaredAnnotation(Class\<T> annotationClass)        | T            | 根据注解类型获得对应注解对象               |
+| ae.isAnnotationPresent(Class\<Annotation> annotationClass) | boolean      | 判断当前对象是否使用了指定的注解           |
+
+示例：
+
+```java
+// 1.自定义标签
+@Target({ElementType.TYPE,ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Book {
+	String value();
+	double price() default 100.0;
+	String[] author();
+}
+
+// 2.定义一个类，为其添加Book注解
+@Book(value = "BOOK1", author = {"Ged"})
+class BookStore {
+	@Book(value = "BOOK2", author = {"Ged", "Daos"})
+	public void test() {
+	}
+}
+
+// 3.获取注解的信息
+public class Test {
+	public static void main(String[] args) throws Exception {
+		Class cls = BookStore.class;
+		Method m = cls.getDeclaredMethod("test");
+		// 判断该类是否有Book标签
+		if(cls.isAnnotationPresent(Book.class)){
+			Book book = (Book) cls.getDeclaredAnnotation(Book.class);
+			System.out.println(book.value()); // BOOK1
+			System.out.println(book.price()); // 100.0
+			System.out.println(Arrays.toString(book.author())); // [Ged]
+		}
+	}
+}
+```
+
+
+
+
+
+
+
+
+
+---
+
+
+
 # Stream流
 
 用于简化集合和数组操作的API。通过**链式编程**的形式配合Lambda表达式，像流水线一样处理集合中的元素
@@ -3249,11 +3690,154 @@ TCP是一种面向连接的可靠通信协议
 
 * 传输前，采用“三次握手"方式建立连接，点对点的通信，所以可靠
 
+客户端：
+
+1. 创建客户端的`Socket`对象，请求与服务端连接
+2. 使用`socket`对象调用`getOutputStream()`方法得到字节输出流
+3. 使用字节输出流完成数据的发送
+
+```java
+public class Client {
+	public static void main(String[] args) throws Exception {
+		// 1.创建socket通信管道请求有服务器的连接
+		Socket socket = new Socket("127.0.0.1",7777);
+		// 2.从socket管道中得到一个字节输出流，负责发送数据
+		OutputStream os = socket.getOutputStream();
+		// 3.把低级的字节流封装成打印流
+		PrintStream ps = new PrintStream(os);
+		// 4.发送消息
+		Scanner sc = new Scanner(System.in);
+		while(true){
+			System.out.print("请输入：");
+			String msg = sc.nextLine();
+			ps.println(msg);// 发送消息
+			ps.flush();
+		}
+	}
+}
+```
+
+服务端：
+
+1. 创建服务端的`serverSocket`对象
+2. 调用`accept()`方法等待客户端的连接请求，建立`socket`通讯管道
+3. 从`socket`管道中调用`getInputStream()`方法得到一个字节输入流
+4. 处理接收到的消息
+
+```java
+public class Server {
+	public static void main(String[] args) throws Exception {
+		// 1.创建服务端的serverSocket对象
+		ServerSocket serverSocket = new ServerSocket(7777);
+		// 2.调用accept方法建立socket通讯管道
+		Socket socket = serverSocket.accept();
+		// 3.从socket管道中得到一个字节输入流
+		InputStream is = socket.getInputStream();
+		// 4.把字节输入流包装成缓冲字符输入流进行消息的接收
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		// 5.等待消息收到后处理消息
+		String msg;
+		while ((msg = br.readLine()) != null) {
+			System.out.println(socket.getRemoteSocketAddress() + "说了: " + msg);
+		}
+	}
+}
+```
+
+使用线程池实现多个客户端向一个服务端发送消息：
+
+```java
+// 创建一个Runnable类用来处理一个连接的消息
+public class ServerReaderRunnable implements Runnable{
+	private Socket socket;
+	public ServerReaderRunnable(Socket socket){
+		this.socket = socket;
+	}
+	@Override
+	public void run() {
+		try {
+			// 3.从socket管道中得到一个字节输入流
+			InputStream is = socket.getInputStream();
+			// 4.把字节输入流包装成缓冲字符输入流进行消息的接收
+			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			// 5.等待消息收到并处理消息
+			String msg;
+			while ((msg = br.readLine()) != null) {
+				System.out.println(socket.getRemoteSocketAddress() + "说了: " + msg);
+			}
+		} catch (IOException e) {
+			System.out.println(socket.getRemoteSocketAddress() + "下线了");
+		}
+	}
+}
+
+public class Server {
+	// 创建一个线程池
+	private static ExecutorService pool = new ThreadPoolExecutor(3, 5, 6,
+			TimeUnit.SECONDS, new ArrayBlockingQueue<>(2), Executors.defaultThreadFactory(),
+			new ThreadPoolExecutor.AbortPolicy());
+	public static void main(String[] args) throws Exception {
+		// 1.创建服务端的serverSocket对象
+		ServerSocket serverSocket = new ServerSocket(7777);
+		while (true) {
+			// 2.每获得一个连接就调用accept方法建立socket通讯管道
+			Socket socket = serverSocket.accept();
+			System.out.println(socket.getRemoteSocketAddress() + "上线了");
+			// 每个连接都交给任务对象用线程池处理
+			pool.execute(new ServerReaderRunnable(socket));
+		}
+	}
+}
+```
 
 
 
 
-## 即时通信
+
+## BS模式通信
+
+浏览器-服务器通信
+
+* 不需要开发客户端
+* 服务端必须按照HTTP协议规则发送数据
+
+```java
+public class Server {
+	public static void main(String[] args) {
+		try {
+			ServerSocket ss = new ServerSocket(8080);
+			while (true) {
+				Socket socket = ss.accept();
+				// 每接收到一个请求就建立一个新线程处理
+				new ServerReaderThread(socket).start();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+public class ServerReaderThread extends Thread {
+	private Socket socket;
+	public ServerReaderThread(Socket socket) {
+		this.socket = socket;
+	}
+	@Override
+	public void run() {
+		try {
+			PrintStream ps = new PrintStream(socket.getOutputStream());
+			//必须用HTTP协议格式发送数据
+			ps.println("HTTP/1.1 200 OK");
+			ps.println("Content-Type:text/html;charset=UTF-8");
+			ps.println();
+			ps.println("<span style='font-size:90px;color:red;'> HELLOWORLD </span>");
+			ps.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
+```
 
 
 
@@ -4004,6 +4588,70 @@ IOUtils.copy(new FileInputStream(String path), new FileOutputStream(String path)
 FileUtils.copyFileToDirectory(new File(String path), new File(String path)); // 文件复制到文件夹
 FileUtils.copyDirectoryToDirectory(new File(String path), new File(String path)); // 文件夹复制到文件夹下
 ```
+
+
+
+
+
+
+
+
+
+---
+
+
+
+# JUnit单元测试框架
+
+JUnit是使用Java语言实现的单元测试框架，用来测试类中方法的正确性，几乎所有的IDE工具都集成了JUnit
+
+* JUnit可以灵活的选择执行哪些测试方法，可以一键执行全部测试方法
+* Junit可以生成全部方法的测试报告
+* 单元测试中的某个方法测试失败了，不会影响其他测试方法的测试
+
+## 使用
+
+1. 编写测试方法：该测试方法必须是**公共的无参数无返回值的非静态方法** 
+2. 在测试方法上使用`@Test`注解标注该方法是一个测试方法
+3. 在测试方法中完成被测试方法的预期正确性测试
+4. 选中测试方法，选择”JUnit运行”，如果测试良好则是绿色，如果测试失败，则是红色
+
+```java
+// 测试类
+public class UnitTest {
+	@Test
+	public void testLoginName() {
+		UserService userService = new UserService();
+		String rs = userService.loginName("admin", "123456");
+		// 进行预期结果的正确性测试  参数：(预期结果，实际结果，错误提示)
+		Assertions.assertEquals("登陆成功", rs, "你的登录业务可能出现问题");
+	}
+
+	@Test
+	public void testSelectAllName(){
+		// 进行异常测试，若出现异常会提示
+		UserService userService = new UserService();
+		userService.selectAllName();
+	}
+}
+
+```
+
+
+
+
+
+## 常用注解
+
+JUnit 5.xxx版本
+
+| 注解        | 说明                                                       |
+| ----------- | ---------------------------------------------------------- |
+| @Test       | 测试方法                                                   |
+| @BeforeEach | 用来修饰实例方法，该方法会在每一个测试方法执行之前执行一次 |
+| @AfterEach  | 用来修饰实例方法，该方法会在每一个测试方法执行之后执行一次 |
+| @BeforeAll  | 用来修饰静态方法，该方法会在所有测试方法之前只执行一次     |
+| @AfterAll   | 用来修饰静态方法，该方法会在所有测试方法之后只执行一次     |
 
 
 
